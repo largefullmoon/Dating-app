@@ -32,11 +32,13 @@ function PlanStandard({ navigation }) {
                 <View style={{ flex: 1, alignItems: "center", justifyContent: "flex-start" }}>
                     {currentSlide == 1 ?
                         <View>
+                            <Image style={{ width: 80, height: 80 }} source={require('../assets/images/heart.png')} />
                             <Text style={{ color: "#0F4037", width: 300, fontSize: 20, fontFamily: "AverageSans" }}>Günlük beğenme sayısı</Text>
                             <Text style={{ color: "#0F4037", width: 300, fontSize: 15, fontFamily: "AverageSans" }}>günlük 3 ücretsiz beğenme sayısı</Text>
                         </View>
                         :
                         <View>
+                            <Image style={{ width: 80, height: 80 }} source={require('../assets/images/refresh.png')} />
                             <Text style={{ color: "#0F4037", width: 300, fontSize: 20, fontFamily: "AverageSans" }}>Günlük beğenme sayısı</Text>
                             <Text style={{ color: "#0F4037", width: 300, fontSize: 15, fontFamily: "AverageSans" }}>günlük 1 ücretsiz yenileme hakkı</Text>
                         </View>
