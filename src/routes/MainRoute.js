@@ -28,6 +28,12 @@ function MainRoute() {
       <Stack.Screen name="Chatting" component={screens.Chatting} />
       <Stack.Screen name="DirectMessage" component={screens.DirectMessage} />
       <Stack.Screen name="PlanStandard" component={screens.PlanStandard} />
+      <Stack.Screen name="PlanRose" component={screens.PlanRose} />
+      <Stack.Screen name="PlanLiLium" component={screens.PlanLiLium} />
+      <Stack.Screen name="Setting" component={screens.Setting} />
+      <Stack.Screen name="User" component={screens.User} />
+      <Stack.Screen name="Tyche" component={screens.Tyche} />
+      <Stack.Screen name="Suggest" component={screens.Suggest} />
     </Stack.Navigator>
   );
 }

@@ -61,12 +61,22 @@ function TermsOfUse({ navigation }) {
                         navigation.replace("PhotoVideo");
                     }}>ONAYLA</Text>
                 </TouchableOpacity>
-                <View style={{ alignItems: 'center', flexDirection: 'row', height: 70, marginTop: 10, justifyContent: "space-between" }}>
-                    <Image style={{ width: 50, height: 50, marginRight: 20 }} source={require('../assets/images/Toolbar/user.png')} />
-                    <Image style={{ width: 50, height: 50, marginRight: 20 }} source={require('../assets/images/Toolbar/logo.png')} />
-                    <Image style={{ width: 50, height: 50, marginRight: 20 }} source={require('../assets/images/Toolbar/home.png')} />
-                    <Image style={{ width: 50, height: 50, marginRight: 20 }} source={require('../assets/images/Toolbar/message.png')} />
-                    <Image style={{ width: 50, height: 50 }} source={require('../assets/images/Toolbar/settings.png')} />
+                <View style={{ alignItems: 'center', flexDirection: 'row', height: 70, marginTop: 10, justifyContent: "space-around", width: 350 }}>
+                    <TouchableOpacity onPress={() => { navigation.replace("User"); }} >
+                        <Image style={{ width: 30, height: 30 }} source={require('../assets/images/Toolbar/user.png')} />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => { navigation.replace("Welcome"); }}>
+                        <Image style={{ width: 30, height: 30 }} source={require('../assets/images/Toolbar/logo.png')} />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => { navigation.replace("Tyche"); }}>
+                        <Image style={{ width: 30, height: 30 }} source={require('../assets/images/Toolbar/home.png')} />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => { navigation.replace("Chatting"); }}>
+                        <Image style={{ width: 30, height: 30 }} source={require('../assets/images/Toolbar/message.png')} />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => { navigation.replace("Setting"); }}>
+                        <Image style={{ width: 30, height: 30 }} source={require('../assets/images/Toolbar/settings.png')} />
+                    </TouchableOpacity>
                 </View>
             </View>
         );

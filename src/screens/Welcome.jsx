@@ -57,7 +57,7 @@ function Welcome({ navigation }) {
             alignItems: 'center', backgroundColor: '#0F4037'
           }}
             onPress={() => {
-              navigation.replace("PlanStandard");
+              navigation.replace("Suggest");
             }}>
             <Text style={{
               fontSize: 18,

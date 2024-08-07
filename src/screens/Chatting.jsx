@@ -44,19 +44,19 @@ function Chatting({ navigation }) {
                     ))}
                 </View>
                 <View style={{ alignItems: 'center', flexDirection: 'row', height: 70, marginTop: 10, justifyContent: "space-around", width: 350 }}>
-                    <TouchableOpacity onPress={() => { navigation.replace("Welcome"); }} >
+                    <TouchableOpacity onPress={() => { navigation.replace("User"); }} >
                         <Image style={{ width: 30, height: 30 }} source={require('../assets/images/Toolbar/user.png')} />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => { navigation.replace("Welcome"); }}>
                         <Image style={{ width: 30, height: 30 }} source={require('../assets/images/Toolbar/logo.png')} />
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => { navigation.replace("Welcome"); }}>
+                    <TouchableOpacity onPress={() => { navigation.replace("Tyche"); }}>
                         <Image style={{ width: 30, height: 30 }} source={require('../assets/images/Toolbar/home.png')} />
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => { navigation.replace("Welcome"); }}>
+                    <TouchableOpacity onPress={() => { navigation.replace("Chatting"); }}>
                         <Image style={{ width: 30, height: 30 }} source={require('../assets/images/Toolbar/message.png')} />
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => { navigation.replace("Welcome"); }}>
+                    <TouchableOpacity onPress={() => { navigation.replace("Setting"); }}>
                         <Image style={{ width: 30, height: 30 }} source={require('../assets/images/Toolbar/settings.png')} />
                     </TouchableOpacity>
                 </View>

@@ -19,6 +19,12 @@ import PlanList from "./PlanList";
 import Chatting from "./Chatting";
 import DirectMessage from "./DirectMessage";
 import PlanStandard from "./PlanStandard";
+import PlanRose from "./PlanRose";
+import PlanLiLium from "./PlanLiLium";
+import Setting from "./Setting";
+import User from "./User";
+import Tyche from "./Tyche";
+import Suggest from "./Suggest";
 
 export {
     Splash,
@@ -41,5 +47,11 @@ export {
     PlanList,
     Chatting,
     DirectMessage,
-    PlanStandard
+    PlanStandard,
+    PlanRose,
+    PlanLiLium,
+    Setting,
+    User,
+    Tyche,
+    Suggest
 }
