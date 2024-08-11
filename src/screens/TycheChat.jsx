@@ -47,7 +47,6 @@ function TycheChat({ navigation }) {
                 <View style={{
                     flexDirection: 'row',
                     alignItems: 'center',
-                    borderRadius: 5,
                     height: 40,
                     margin: 10,
                     paddingLeft: 10,

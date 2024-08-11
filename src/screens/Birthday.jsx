@@ -20,6 +20,9 @@ function Birthday({ navigation }) {
                 <DatePicker
                     onChange={(value) => setDate(value)}
                     format="yyyy-mm-dd"
+                    fadeColor="#ECE6BF"
+                    textColor="black"
+                    markColor="#0F4037"
                 />
                 <TouchableOpacity style={{
                     borderRadius: 25,

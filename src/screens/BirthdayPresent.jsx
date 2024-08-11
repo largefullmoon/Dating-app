@@ -1,9 +1,51 @@
 import React, { useState, useMemo } from 'react';
-import { ImageBackground, View, Image, Text, TextInput, TouchableOpacity } from 'react-native';
+import { ImageBackground, View, Image, Text, TextInput, TouchableOpacity, StyleSheet} from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import RadioGroup from 'react-native-radio-buttons-group';
 const APP_NAME = "tyche"
-
+const CustomRadioButton = ({ id, label, isSelected, onPress }) => {
+    return (
+        <TouchableOpacity onPress={() => onPress(id)} style={styles.container}>
+            <View style={[styles.radioCircle, isSelected && styles.selectedRadioCircle]} />
+            <View style={styles.textContainer}>
+                <Text style={styles.label}>{label}</Text>
+            </View>
+        </TouchableOpacity>
+    );
+};
+const styles = StyleSheet.create({
+    container: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginVertical: 5,
+    },
+    radioCircle: {
+        height: 20,
+        width: 20,
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: '#0F4037',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginRight: 10,
+    },
+    selectedRadioCircle: {
+        borderWidth: 5,
+        borderColor: '#0F4037',
+    },
+    textContainer: {
+        flexDirection: 'column',
+        width: 200,
+        backgroundColor: "#0F4037",
+        borderRadius: 25,
+    },
+    label: {
+        fontSize: 16,
+        color: "white",
+        textAlign: "center",
+        padding: 1
+    }
+});
 function BirthdayPresent({ navigation }) {
     const { user } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
@@ -47,14 +89,18 @@ function BirthdayPresent({ navigation }) {
                     </Text>
                 </View>
                 <View style={{ marginBottom: 20, alignItems: 'center', flex: 1, justifyContent: 'center' }}>
-                    <Text style={{ fontFamily: "AverageSans", fontSize: 15, color: '#0F4037' }}>Bir arkadaşınızın doğum gününde, hediye olarak tercih edeceğiniz şey seçeneklerden hangisidir?</Text>
-                    <RadioGroup
-                        radioButtons={radioButtons}
-                        onPress={setSelectedId}
-                        layout="column"
-                        selectedId={selectedId}
-                        containerStyle={{alignItems: 'flex-start'}}
-                    />
+                    <Text style={{ fontFamily: "AverageSans", fontSize: 15, color: '#0F4037' }}>Bir arkadaşınızın doğum {"\n"}gününde, hediye olarak {"\n"}tercih edeceğiniz şey {"\n"}seçeneklerden hangisidir?</Text>
+                    <View style={{marginTop: 60}}>
+                        {radioButtons.map((button) => (
+                            <CustomRadioButton
+                                key={button.id}
+                                id={button.id}
+                                label={button.label}
+                                isSelected={button.id === selectedId}
+                                onPress={setSelectedId}
+                            />
+                        ))}
+                    </View>
                     <TouchableOpacity style={{
                         borderRadius: 25,
                         width: 300,
@@ -64,9 +110,8 @@ function BirthdayPresent({ navigation }) {
                         alignItems: 'center', backgroundColor: '#0F4037',
                         marginTop: 80,
                     }}>
-                        <Text style={{ fontFamily: "AverageSans", fontSize: 25 }}>İLERLE</Text>
+                        <Text style={{ fontFamily: "AverageSans", fontSize: 25, color: "white"}}>İLERLE</Text>
                     </TouchableOpacity>
-                    <Text style={{ marginTop: 10, color: "##0F4037", width: 300, fontSize: 15, fontFamily: "AverageSans" }}>Kullanıcının gerçekten sen olduğunu doğrulamak için sana bir kod göndereceğiz.Mesaj ve veriler ücrete tabi olabilir.</Text>
                 </View>
             </View>
         );

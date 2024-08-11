@@ -14,7 +14,7 @@ const DirectionYou = () => (
     </Svg>
 );
 const ChatUser = ({ item, navigation }) => (
-    <View style={{ margin: 5, justifyContent: "center", flexDirection: "row", width: 350, justifyContent: item.from === "me" ? "flex-end" : "flex-start", }}>
+    <View style={{ margin: 5, flexDirection: "row", width: 350, justifyContent: item.from === "me" ? "flex-end" : "flex-start", }}>
         <View style={{ borderRadius: 20, paddingHorizontal: 10, paddingVertical: 5, flexDirection: "row", alignItems: "flex-end", backgroundColor: item.from === "me" ? "#0F4037" : "white" }}>
             <Text style={{ color: item.from === "me" ? "white" : "#0F4037", fontSize: 17 }}>{item.content}</Text>
             <Text style={{ color: item.from === "me" ? "white" : "#0F4037", fontSize: 12 }}>{item.time}</Text>
@@ -56,9 +56,7 @@ function DirectMessage({ navigation }) {
                 <View style={{
                     flexDirection: 'row',
                     alignItems: 'center',
-                    borderRadius: 5,
                     height: 30,
-                    margin: 10,
                     paddingLeft: 10,
                     margin: 20,
                     paddingRight: 10,

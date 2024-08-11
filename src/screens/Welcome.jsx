@@ -57,7 +57,7 @@ function Welcome({ navigation }) {
             alignItems: 'center', backgroundColor: '#0F4037'
           }}
             onPress={() => {
-              navigation.replace("Suggest");
+              navigation.replace("PhoneNumber");
             }}>
             <Text style={{
               fontSize: 18,

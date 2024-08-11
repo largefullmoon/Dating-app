@@ -20,7 +20,7 @@ function PlanRose({ navigation }) {
             <View
                 style={{ backgroundColor: '#B22222', alignItems: 'center', flex: 1 }}
             >
-                <View style={{ alignItems: 'center', width: 200, marginTop: 10, borderWidth: 1, borderColor: "white", marginTop: 50 }}>
+                <View style={{ alignItems: 'center', width: 200, borderWidth: 1, borderColor: "white", marginTop: 50 }}>
                     <View style={{ alignItems: 'center', flexDirection: 'row', height: 100 }}>
                         <Image style={{ width: 80, height: 80 }} source={require('../assets/images/logo.png')} />
                         <Text style={{ fontSize: 30, fontFamily: 'Quintessential', color: '#0F4037' }}>
