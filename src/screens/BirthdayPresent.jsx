@@ -1,7 +1,8 @@
 import React, { useState, useMemo } from 'react';
-import { ImageBackground, View, Image, Text, TextInput, TouchableOpacity, StyleSheet} from 'react-native';
+import { ImageBackground, View, Image, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import RadioGroup from 'react-native-radio-buttons-group';
+import {updateUserInformation} from "../features/auth/authSlice";
 const APP_NAME = "tyche"
 const CustomRadioButton = ({ id, label, isSelected, onPress }) => {
     return (
@@ -46,7 +47,7 @@ const styles = StyleSheet.create({
         padding: 1
     }
 });
-function BirthdayPresent({ navigation }) {
+function BirthdayPresent({ setCurrentStep }) {
     const { user } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
     const [selectedId, setSelectedId] = useState();
@@ -79,40 +80,35 @@ function BirthdayPresent({ navigation }) {
     ]), []);
     if (!user || !user.verified) {
         return (
-            <View
-                style={{ backgroundColor: '#ECE6BF', alignItems: 'center', flex: 1 }}
-            >
-                <View style={{ alignItems: 'center', flexDirection: 'row', height: 100, marginTop: 10 }}>
-                    <Image style={{ width: 80, height: 80 }} source={require('../assets/images/logo.png')} />
-                    <Text style={{ fontSize: 30, fontFamily: 'Quintessential', color: '#0F4037' }}>
-                        {APP_NAME}
-                    </Text>
+
+            <View style={{ marginBottom: 20, alignItems: 'center', flex: 1, justifyContent: 'center' }}>
+                <Text style={{ fontFamily: "AverageSans", fontSize: 15, color: '#0F4037' }}>Bir arkadaşınızın doğum {"\n"}gününde, hediye olarak {"\n"}tercih edeceğiniz şey {"\n"}seçeneklerden hangisidir?</Text>
+                <View style={{ marginTop: 60 }}>
+                    {radioButtons.map((button) => (
+                        <CustomRadioButton
+                            key={button.id}
+                            id={button.id}
+                            label={button.label}
+                            isSelected={button.id === selectedId}
+                            onPress={setSelectedId}
+                        />
+                    ))}
                 </View>
-                <View style={{ marginBottom: 20, alignItems: 'center', flex: 1, justifyContent: 'center' }}>
-                    <Text style={{ fontFamily: "AverageSans", fontSize: 15, color: '#0F4037' }}>Bir arkadaşınızın doğum {"\n"}gününde, hediye olarak {"\n"}tercih edeceğiniz şey {"\n"}seçeneklerden hangisidir?</Text>
-                    <View style={{marginTop: 60}}>
-                        {radioButtons.map((button) => (
-                            <CustomRadioButton
-                                key={button.id}
-                                id={button.id}
-                                label={button.label}
-                                isSelected={button.id === selectedId}
-                                onPress={setSelectedId}
-                            />
-                        ))}
-                    </View>
-                    <TouchableOpacity style={{
-                        borderRadius: 25,
-                        width: 300,
-                        height: 50,
-                        padding: 10,
-                        marginVertical: 5,
-                        alignItems: 'center', backgroundColor: '#0F4037',
-                        marginTop: 80,
+                <TouchableOpacity style={{
+                    borderRadius: 25,
+                    width: 300,
+                    height: 50,
+                    padding: 10,
+                    marginVertical: 5,
+                    alignItems: 'center', backgroundColor: '#0F4037',
+                    marginTop: 80,
+                }}
+                    onPress={async () => {
+                        await dispatch(updateUserInformation({"key":"birthdayPresent", "value":selectedId}))
+                        setCurrentStep("phoneNumber");
                     }}>
-                        <Text style={{ fontFamily: "AverageSans", fontSize: 25, color: "white"}}>İLERLE</Text>
-                    </TouchableOpacity>
-                </View>
+                    <Text style={{ fontFamily: "AverageSans", fontSize: 25, color: "white" }}>İLERLE</Text>
+                </TouchableOpacity>
             </View>
         );
     }

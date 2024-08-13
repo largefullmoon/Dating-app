@@ -25,6 +25,7 @@ import Setting from "./Setting";
 import User from "./User";
 import Tyche from "./Tyche";
 import Suggest from "./Suggest";
+import Register from "./Register";
 
 export {
     Splash,
@@ -53,5 +54,6 @@ export {
     Setting,
     User,
     Tyche,
-    Suggest
+    Suggest,
+    Register
 }

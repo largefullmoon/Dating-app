@@ -6,24 +6,26 @@ const initialState = {
   isSuccess: false,
   isError: false,
   isLoading: false,
+  userInformation: {},
   message: "",
 };
-
-//Register user
-export const register = createAsyncThunk(
-  "auth/register",
-  async (user, thunkAPI) => {
-    try {
-      return await authService.register(user);
-    } catch (error) {
-      
-      // const message =
-      //   (error.response && error.response.data && response.data.message) ||
-      //   error.message ||
-      //   error.toString();
-      return thunkAPI.rejectWithValue(error.response.data.message);
-    }
+export const updateUserInformation = createAsyncThunk("auth/updateUserInformation", async (params, thunkAPI) => {
+  try {
+    return {"key" : params['key'], "value" : params['value']}
+  } catch {
+    return "update userinformation failed";
   }
+}
+);
+//Register user
+export const register = createAsyncThunk("auth/register", async (thunkAPI) => {
+  try {
+    return "ok"
+    // return await authService.register(user);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response.data.message);
+  }
+}
 );
 
 //Login user
@@ -117,10 +119,29 @@ export const authSlice = createSlice({
       state.isSuccess = false;
       state.message = "";
       state.user = null;
+      state.userInformation = null;
     },
   },
   extraReducers: (builder) => {
     builder
+      .addCase(updateUserInformation.pending, (state, action) => {
+        state.isLoading = true;
+        isError = false
+        isSuccess = false
+        message = null
+        user = null
+      })
+      .addCase(updateUserInformation.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.userInformation[action.payload.key] = action.payload.value
+      })
+      .addCase(updateUserInformation.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.user = null;
+      })
       .addCase(register.pending, (state) => {
         state.isLoading = true;
         isError = false
@@ -129,9 +150,10 @@ export const authSlice = createSlice({
         user = null
       })
       .addCase(register.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.user = action.payload;
+        // state.isLoading = false;
+        // state.isSuccess = true;
+        // state.user = action.payload;
+        alert(JSON.stringify(state.userInformation))
       })
       .addCase(register.rejected, (state, action) => {
         state.isLoading = false;
@@ -160,9 +182,9 @@ export const authSlice = createSlice({
       })
       .addCase(logout.fulfilled, (state, action) => (state.user = null))
       .addCase(getUser.fulfilled, (state) => {
-        (state.user = action.payload),
-          (state.isSuccess = true),
-          (state.isLoading = false);
+        state.user = action.payload;
+        state.isSuccess = true;
+        state.isLoading = false;
       })
       .addCase(getUser.pending, (state) => {
         state.isLoading = true;

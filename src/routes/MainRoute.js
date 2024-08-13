@@ -34,6 +34,7 @@ function MainRoute() {
       <Stack.Screen name="User" component={screens.User} />
       <Stack.Screen name="Tyche" component={screens.Tyche} />
       <Stack.Screen name="Suggest" component={screens.Suggest} />
+      <Stack.Screen name="Register" component={screens.Register} />
     </Stack.Navigator>
   );
 }

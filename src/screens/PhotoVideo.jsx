@@ -4,9 +4,47 @@ import { useSelector, useDispatch } from 'react-redux';
 import CircleXFill from '../assets/images/circle-x-fill-24.svg';
 import CircleCheckFill from '../assets/images/circle-check-fill-24.svg';
 const APP_NAME = "tyche"
+import DocumentPicker from 'react-native-document-picker';
 function PhotoVideo({ navigation }) {
     const { user } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
+    const selectFile = async () => {
+        try {
+            const res = await DocumentPicker.pick({
+                type: [DocumentPicker.types.images, DocumentPicker.types.video],
+            });
+            console.log('Selected file URI:', res.uri);
+            uploadFile(res.uri, res.name, res.type)
+        } catch (err) {
+            if (DocumentPicker.isCancel(err)) {
+                console.log('User cancelled file picker');
+            } else {
+                throw err;
+            }
+        }
+    };
+    const uploadFile = async (fileUri, fileName, fileType) => {
+        let formData = new FormData();
+        formData.append('file', {
+            uri: fileUri,
+            name: fileName, // Or the selected file's name
+            type: fileType, // Or the selected file's type
+        });
+
+        try {
+            const response = await fetch('YOUR_UPLOAD_ENDPOINT', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            const result = await response.json();
+            console.log('Upload success:', result);
+        } catch (error) {
+            console.log('Upload error:', error);
+        }
+    };
     if (!user || !user.verified) {
         return (
             <View
@@ -19,8 +57,26 @@ function PhotoVideo({ navigation }) {
                     </Text>
                 </View>
                 <Text style={{ textAlign: "left", width: 350, alignItems: "flex-start", marginTop: 10, color: "#0F4037", fontSize: 15, fontFamily: "AverageSans" }}>Fotoğraf ve videolar</Text>
-                <View style={{alignItems: "center", justifyContent: "flex-start" }}>
+                <View style={{ alignItems: "center", justifyContent: "flex-start" }}>
                     <Image style={{ width: 350 }} source={require('../assets/images/videoset.png')} />
+                    <TouchableOpacity style={{ width: 24, position: "absolute", top: "20%", left: "13%" }} onPress={() => { selectFile() }} >
+                        <Image source={require('../assets/images/add_circle.png')} />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ width: 24, position: "absolute", top: "20%", left: "45%" }} onPress={() => { selectFile() }} >
+                        <Image source={require('../assets/images/add_circle.png')} />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ width: 24, position: "absolute", top: "20%", left: "77%" }} onPress={() => { selectFile() }} >
+                        <Image source={require('../assets/images/add_circle.png')} />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ width: 24, position: "absolute", top: "63%", left: "13%" }} onPress={() => { selectFile() }} >
+                        <Image source={require('../assets/images/add_circle.png')} />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ width: 24, position: "absolute", top: "63%", left: "45%" }} onPress={() => { selectFile() }} >
+                        <Image source={require('../assets/images/add_circle.png')} />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ width: 24, position: "absolute", top: "63%", left: "77%" }} onPress={() => { selectFile() }} >
+                        <Image source={require('../assets/images/add_circle.png')} />
+                    </TouchableOpacity>
                     <Text style={{ marginTop: 10, color: "#0F4037", width: 326, fontSize: 15, fontFamily: "AverageSans" }}>Fotoğrafları sıralamak istersen tutup sürükleyebilirsin.</Text>
                 </View>
                 <View style={{
@@ -36,7 +92,7 @@ function PhotoVideo({ navigation }) {
                         width: 200,
                         height: 50,
                         padding: 10,
-                        alignItems: 'center', 
+                        alignItems: 'center',
                         backgroundColor: '#0F4037',
                     }}>
                         <Text style={{ fontFamily: "AverageSans", fontSize: 25 }} onPress={() => {

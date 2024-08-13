@@ -26,7 +26,6 @@ const login = async (userData) => {
       await AsyncStorage.setItem("@user", jsonValue);
     } catch (e) {
       // saving error
-
       return e;
     }
   }

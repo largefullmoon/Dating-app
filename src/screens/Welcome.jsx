@@ -26,7 +26,7 @@ function Welcome({ navigation }) {
             height: 50,
             padding: 10,
             marginVertical: 5,
-            alignItems: 'center', backgroundColor: '#0F4037'
+            alignItems: 'center', backgroundColor: '#3153BB'
           }}>
             <Text style={{
               fontSize: 18,
@@ -35,21 +35,7 @@ function Welcome({ navigation }) {
             }}>Apple ile Giriş Yap</Text>
           </TouchableOpacity>
           <TouchableOpacity style={{
-            borderRadius: 25,
-            width: 300,
-            height: 50,
-            padding: 10,
-            marginVertical: 5,
-            alignItems: 'center', backgroundColor: '#3153BB'
-          }}>
-            <Text style={{
-              fontSize: 18,
-              fontFamily: 'AverageSans',
-              color: '#FFFFFF',
-            }}>Facebook ile Giriş Yap</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={{
-            borderRadius: 25,
+            borderRadius: 25, 
             width: 300,
             height: 60,
             padding: 10,
@@ -57,7 +43,7 @@ function Welcome({ navigation }) {
             alignItems: 'center', backgroundColor: '#0F4037'
           }}
             onPress={() => {
-              navigation.replace("PhoneNumber");
+              navigation.replace("Register");
             }}>
             <Text style={{
               fontSize: 18,
