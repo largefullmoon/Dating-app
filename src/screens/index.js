@@ -11,6 +11,7 @@ import Sex from "./Sex";
 import BirthdayPresent from "./BirthdayPresent";
 import AgreementStep from "./AgreementStep";
 import TycheChat from "./TycheChat";
+import LoadingTycheChat from "./LoadingTycheChat";
 import RegisterCompleted from "./RegisterCompleted";
 import WelcomeSign from "./WelcomeSign";
 import TermsOfUse from "./TermsOfUse";
@@ -55,5 +56,6 @@ export {
     User,
     Tyche,
     Suggest,
-    Register
+    Register,
+    LoadingTycheChat
 }

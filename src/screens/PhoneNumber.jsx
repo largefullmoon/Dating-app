@@ -14,7 +14,7 @@ function PhoneNumber({ setCurrentStep }) {
     if (!user || !user.verified) {
         return (
             <View style={{ marginBottom: 20, alignItems: 'center', flex: 1, justifyContent: 'center' }}>
-                <Text style={{ fontFamily: "AverageSans", fontSize: 40 }}>Telefon Numarası</Text>
+                <Text style={{ fontFamily: "AverageSans", fontSize: 40, marginBottom: 80, color:"#0F4037"}}>Telefon Numarası</Text>
                 <PhoneInput
                     layout="first"
                     withDarkTheme
@@ -39,12 +39,12 @@ function PhoneNumber({ setCurrentStep }) {
                     onPress={async () => {
                         await dispatch(updateUserInformation({"key":"phoneNumner", "value":phoneNumner}))
                         await dispatch(register())
-                        // setCurrentStep("phoneCode");
+                        setCurrentStep("phoneCode");
                     }}
                 >
-                    <Text style={{ fontFamily: "AverageSans", fontSize: 25 }}>İLERLE</Text>
+                    <Text style={{ fontFamily: "AverageSans", fontSize: 25, color:"white"}}>İLERLE</Text>
                 </TouchableOpacity>
-                <Text style={{ marginTop: 10, color: "##0F4037", width: 300, fontSize: 15, fontFamily: "AverageSans" }}>Kullanıcının gerçekten sen olduğunu doğrulamak için sana bir kod göndereceğiz.Mesaj ve veriler ücrete tabi olabilir.</Text>
+                <Text style={{ marginTop: 10, color: "#0F4037", width: 300, fontSize: 15, fontFamily: "AverageSans", textAlign:"center"}}>Kullanıcının gerçekten sen{"\n"}olduğunu doğrulamak için sana{"\n"}bir kod göndereceğiz.Mesaj ve{"\n"}veriler ücrete tabi olabilir.</Text>
             </View>
         );
     }

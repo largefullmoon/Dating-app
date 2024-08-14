@@ -8,7 +8,7 @@ function FirstName({ setCurrentStep }) {
     const [value, setValue] = useState("");
     return (
         <View style={{ marginBottom: 20, alignItems: 'center', flex: 1, justifyContent: 'center' }}>
-            <Text style={{ fontFamily: "AverageSans", fontSize: 40 }}>İsim </Text>
+            <Text style={{ fontFamily: "AverageSans", fontSize: 40, color: "#0F4037",}}>İsim </Text>
             <TextInput style={{
                 margin: 10,
                 height: 50,
@@ -31,7 +31,7 @@ function FirstName({ setCurrentStep }) {
                 padding: 10,
                 marginVertical: 5,
                 alignItems: 'center', backgroundColor: '#0F4037',
-                marginTop: 80,
+                marginTop: 10,
                 justifyContent: "center"
             }}
                 onPress={async() => {

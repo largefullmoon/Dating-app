@@ -31,7 +31,7 @@ function Gmail({setCurrentStep}) {
                     padding: 10,
                     marginVertical: 5,
                     alignItems: 'center', backgroundColor: '#0F4037',
-                    marginTop: 80,
+                    marginTop: 5,
                     justifyContent: "center",
                 }}
                     onPress={async() => {
@@ -40,7 +40,7 @@ function Gmail({setCurrentStep}) {
                     }}>
                     <Text style={{ fontFamily: "AverageSans", fontSize: 25, color: "white"}}>İLERLE</Text>
                 </TouchableOpacity>
-                <Text style={{ fontFamily: "AverageSans", fontSize: 15, color: "#0F4037" }}>E-postanı doğrula, hesabına erişimini kaybetme.</Text>
+                <Text style={{ fontFamily: "AverageSans", fontSize: 15, color: "#0F4037", paddingTop: 15}}>E-postanı doğrula, hesabına{"\n"} erişimini kaybetme.</Text>
             </View>
     );
 }

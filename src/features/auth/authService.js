@@ -1,5 +1,5 @@
 import axios from "axios";
-const BASE_URL = ""
+const BASE_URL = "https://in-enough-yak.ngrok-free.app";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 //Register user

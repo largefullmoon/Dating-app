@@ -10,7 +10,7 @@ function PhoneCode({ navigation }) {
     if (!user || !user.verified) {
         return (
             <View style={{ marginBottom: 20, alignItems: 'center', flex: 1, justifyContent: 'center' }}>
-                <Text style={{ fontFamily: "AverageSans", fontSize: 40 }}>Doğrulama Kodu</Text>
+                <Text style={{ fontFamily: "AverageSans", fontSize: 40, marginBottom: 40, color:"#0F4037"}}>Doğrulama Kodu</Text>
                 <View style={{ alignItems: "center", flexDirection: "row" }}>
                     <TextInput style={{
                         margin: 10,
@@ -81,13 +81,13 @@ function PhoneCode({ navigation }) {
                     padding: 10,
                     marginVertical: 5,
                     alignItems: 'center', backgroundColor: '#0F4037',
-                    marginTop: 80,
+                    marginTop: 40,
                     justifyContent: "center"
                 }}
                     onPress={() => {
-                        navigation.replace("Gmail");
+                        navigation.replace("LoadingTycheChat");
                     }}>
-                    <Text style={{ fontFamily: "AverageSans", fontSize: 25 }}>Tekrar Gönder</Text>
+                    <Text style={{ fontFamily: "AverageSans", fontSize: 25, color:"white"}}>Tekrar Gönder</Text>
                 </TouchableOpacity>
             </View>
         );

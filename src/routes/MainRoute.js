@@ -19,6 +19,7 @@ function MainRoute() {
       <Stack.Screen name="Sex" component={screens.Sex} />
       <Stack.Screen name="BirthdayPresent" component={screens.BirthdayPresent} />
       <Stack.Screen name="AgreementStep" component={screens.AgreementStep} /> 
+      <Stack.Screen name="LoadingTycheChat" component={screens.LoadingTycheChat} /> 
       <Stack.Screen name="TycheChat" component={screens.TycheChat} /> 
       <Stack.Screen name="RegisterCompleted" component={screens.RegisterCompleted} /> 
       <Stack.Screen name="WelcomeSign" component={screens.WelcomeSign} />

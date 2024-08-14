@@ -26,35 +26,37 @@ function Welcome({ navigation }) {
             height: 50,
             padding: 10,
             marginVertical: 5,
-            alignItems: 'center', backgroundColor: '#3153BB'
+            alignItems: 'center', backgroundColor: '#3153BB',
+            flexDirection: 'row', justifyContent: "space-between"
           }}>
+            <Image style={{ width: 30, height: 30 }} source={require('../assets/images/apple.png')} />
             <Text style={{
               fontSize: 18,
+              width: 250,
               fontFamily: 'AverageSans',
               color: '#FFFFFF',
+              textAlign: "center"
             }}>Apple ile Giriş Yap</Text>
           </TouchableOpacity>
           <TouchableOpacity style={{
             borderRadius: 25, 
             width: 300,
-            height: 60,
+            height: 70,
             padding: 10,
             marginVertical: 5,
-            alignItems: 'center', backgroundColor: '#0F4037'
+            alignItems: 'center', backgroundColor: '#0F4037',
+            flexDirection: 'row', justifyContent: "space-between"
           }}
             onPress={() => {
               navigation.replace("Register");
             }}>
+            <Image style={{ width: 30, height: 30 }} source={require('../assets/images/phone.png')} />
             <Text style={{
               fontSize: 18,
+              width: 250,
               fontFamily: 'AverageSans',
-              color: '#FFFFFF',
-            }}>Telefon Numarası ile</Text>
-            <Text style={{
-              fontSize: 18,
-              fontFamily: 'AverageSans',
-              color: '#FFFFFF',
-            }}>Kayıt Ol</Text>
+              color: '#FFFFFF',textAlign: "center"
+            }}>Telefon Numarası ile{"\n"}Kayıt Ol</Text>
           </TouchableOpacity>
         </View>
       </ImageBackground>

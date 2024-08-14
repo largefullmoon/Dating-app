@@ -38,7 +38,7 @@ function Register({ navigation }) {
             case "phoneNumber":
                 return <PhoneNumber setCurrentStep={setCurrentStep}></PhoneNumber>
             case "phoneCode":
-                return <PhoneCode setCurrentStep={setCurrentStep}></PhoneCode>
+                return <PhoneCode navigation={navigation}></PhoneCode>
             default:
                 break;
         }

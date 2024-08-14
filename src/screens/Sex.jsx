@@ -12,8 +12,8 @@ function Sex({ setCurrentStep }) {
     const [isChecked, setChecked] = useState(false);
     if (!user || !user.verified) {
         return (
-            <View style={{ marginBottom: 20, alignItems: 'center', flex: 1, justifyContent: 'center' }}>
-                <Text style={{ fontFamily: "AverageSans", fontSize: 40 }}>Cinsiyet</Text>
+            <View style={{ marginBottom: 20, alignItems: 'center', flex: 1, justifyContent: 'center'}}>
+                <Text style={{ fontFamily: "AverageSans", fontSize: 40, color: "#0F4037", marginBottom: 40}}>Cinsiyet</Text>
                 <RNPickerSelect
                     style={{
                         inputIOS: {
@@ -25,7 +25,7 @@ function Sex({ setCurrentStep }) {
                             borderRadius: 25,
                             color: 'black',
                             paddingRight: 30, // to ensure the text is never behind the icon
-                            backgroundColor: 'white',
+                            backgroundColor: 'white'
                         },
                         inputAndroid: {
                             fontSize: 16,
@@ -36,7 +36,7 @@ function Sex({ setCurrentStep }) {
                             borderRadius: 25,
                             color: 'black',
                             paddingRight: 30, // to ensure the text is never behind the icon
-                            backgroundColor: 'white',
+                            backgroundColor: 'white'
                         },
                     }}
                     onValueChange={(value) => setSelectedValue(value)}
@@ -45,7 +45,7 @@ function Sex({ setCurrentStep }) {
                         { label: 'Kadın', value: 'female' },
                     ]}
                 />
-                <View style={{ alignItems: 'center', flexDirection: 'row' }}>
+                <View style={{ alignItems: 'center', flexDirection: 'row', marginTop: 10}}>
                     <CheckBox
                         style={{ marginHorizontal: 10, borderRadius: 25, color: "white"}}
                         onClick={() => {
@@ -62,15 +62,14 @@ function Sex({ setCurrentStep }) {
                     padding: 10,
                     marginVertical: 5,
                     alignItems: 'center', backgroundColor: '#0F4037',
-                    marginTop: 80,
+                    marginTop: 40,
                 }}>
-                    <Text style={{ fontFamily: "AverageSans", fontSize: 25 }} onPress={ async () => {
+                    <Text style={{ fontFamily: "AverageSans", fontSize: 25, color:"white"}} onPress={ async () => {
                         await dispatch(updateUserInformation({"key":"sex", "value":selectedValue}))
                         await dispatch(updateUserInformation({"key":"sexProfile", "value":isChecked}))
                         setCurrentStep("birthdayPresent");
                     }}>İLERLE</Text>
                 </TouchableOpacity>
-                <Text style={{ marginTop: 10, color: "##0F4037", width: 300, fontSize: 15, fontFamily: "AverageSans" }}>Kullanıcının gerçekten sen olduğunu doğrulamak için sana bir kod göndereceğiz.Mesaj ve veriler ücrete tabi olabilir.</Text>
             </View>
         );
     }

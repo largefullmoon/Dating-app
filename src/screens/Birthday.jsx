@@ -16,12 +16,12 @@ function Birthday({ setCurrentStep }) {
     return (
 
         <View style={{ marginBottom: 20, alignItems: 'center', flex: 1, justifyContent: 'center' }}>
-            <Text style={{ fontFamily: "AverageSans", fontSize: 40 }}>Doğum Günü</Text>
+            <Text style={{ fontFamily: "AverageSans", fontSize: 40, color: "#0F4037"}}>Doğum Günü</Text>
             <DatePicker
                 onChange={(value) => setDate(value)}
                 format="yyyy-mm-dd"
                 fadeColor="#ECE6BF"
-                textColor="black"
+                textColor="white"
                 markColor="#0F4037"
             />
             <TouchableOpacity style={{
@@ -31,14 +31,14 @@ function Birthday({ setCurrentStep }) {
                 padding: 10,
                 marginVertical: 5,
                 alignItems: 'center', backgroundColor: '#0F4037',
-                marginTop: 80,
+                marginTop: 10,
                 justifyContent: "center"
             }}
                 onPress={async () => {
                     await dispatch(updateUserInformation({"key":"birthday", "value":formatDate(date)}))
                     setCurrentStep("sex");
                 }}>
-                <Text style={{ fontFamily: "AverageSans", fontSize: 25 }}>İLERLE</Text>
+                <Text style={{ fontFamily: "AverageSans", fontSize: 25, color: "white"}}>İLERLE</Text>
             </TouchableOpacity>
         </View>
     );
