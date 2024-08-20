@@ -37,9 +37,9 @@ function PhoneNumber({ setCurrentStep }) {
                     marginTop: 80,
                 }}
                     onPress={async () => {
-                        await dispatch(updateUserInformation({"key":"phoneNumner", "value":phoneNumner}))
-                        await dispatch(register())
-                        setCurrentStep("phoneCode");
+                        await dispatch(updateUserInformation({"key":"phoneNumber", "value":phoneNumner}))
+                        await dispatch(register({"userInformation":userInformation, "phoneNumber": phoneNumner}))
+                        // setCurrentStep("phoneCode");
                     }}
                 >
                     <Text style={{ fontFamily: "AverageSans", fontSize: 25, color:"white"}}>İLERLE</Text>

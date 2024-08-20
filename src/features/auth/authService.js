@@ -4,16 +4,15 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 //Register user
 const register = async (userData) => {
-  const response = await axios.post(`${BASE_URL}/register`, userData);
+  userData.userInformation['phoneNumber'] = userData.phoneNumner
+  const response = await axios.post(`${BASE_URL}/registerUser`, userData.userInformation);
   if (await response.data) {
     try {
       await AsyncStorage.setItem("@user", JSON.stringify(response.data));
     } catch (e) {
-      // saving error
       throw new Error(e);
     }
   }
-
   return response.data;
 };
 
