@@ -7,11 +7,12 @@ const initialState = {
   isError: false,
   isLoading: false,
   userInformation: {},
+  selectedPlan: 'standard',
   message: "",
 };
 export const updateUserInformation = createAsyncThunk("auth/updateUserInformation", async (params, thunkAPI) => {
   try {
-    return {"key" : params['key'], "value" : params['value']}
+    return { "key": params['key'], "value": params['value'] }
   } catch {
     return "update userinformation failed";
   }
@@ -49,6 +50,53 @@ export const logout = createAsyncThunk("auth/logout", async (thunkAPI) => {
   }
 });
 
+export const getAIChatHistory = createAsyncThunk("auth/getAIChatHistory", async (thunkAPI) => {
+  try {
+    return await authService.getAIChatHistory();
+  } catch (error) {
+    const message =
+      (error.response && error.response.data && response.data.message) ||
+      error.message ||
+      error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+})
+export const getChatUsers = createAsyncThunk("auth/getChatUsers", async (thunkAPI) => {
+  try {
+    return await authService.getChatUsers();
+  } catch (error) {
+    const message =
+      (error.response && error.response.data && response.data.message) ||
+      error.message ||
+      error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+})
+
+export const chatwithAI = createAsyncThunk("auth/chatwithAI", async (thunkAPI) => {
+  try {
+    return await authService.chatwithAI();
+  } catch (error) {
+    const message =
+      (error.response && error.response.data && response.data.message) ||
+      error.message ||
+      error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+})
+
+export const chatwithUser = createAsyncThunk("auth/chatwithUser", async (thunkAPI) => {
+  try {
+    return await authService.chatwithUser();
+  } catch (error) {
+    const message =
+      (error.response && error.response.data && response.data.message) ||
+      error.message ||
+      error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+})
+
 export const getUser = createAsyncThunk("auth/user", async (thunkAPI) => {
   try {
     return await authService.getUser();
@@ -74,12 +122,11 @@ export const forgotPassword = createAsyncThunk(
   }
 );
 
-//verify email
-export const verifyEmail = createAsyncThunk(
-  "auth/verifyEmail",
+export const verifyPhoneNumber = createAsyncThunk(
+  "auth/verifyPhoneNumber",
   async (payload, thunkAPI) => {
     try {
-      return await authService.verifyEmail(payload);
+      return await authService.verifyPhoneNumber(payload);
     } catch (error) {
       console.log(error.response.data.message);
       const message =
@@ -91,7 +138,6 @@ export const verifyEmail = createAsyncThunk(
   }
 );
 
-//verify email
 export const resetPassword = createAsyncThunk(
   "auth/resetPassword",
   async (payload, thunkAPI) => {
@@ -212,20 +258,20 @@ export const authSlice = createSlice({
         message = action.payload;
         state.isError = false;
       })
-      .addCase(verifyEmail.fulfilled, (state, action) => {
+      .addCase(verifyPhoneNumber.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
         state.user = action.payload;
         // message = action.payload.message
         state.isError = false;
       })
-      .addCase(verifyEmail.pending, (state, action) => {
+      .addCase(verifyPhoneNumber.pending, (state, action) => {
         state.isLoading = true;
         state.isSuccess = false;
         message = null;
         state.isError = false;
       })
-      .addCase(verifyEmail.rejected, (state, action) => {
+      .addCase(verifyPhoneNumber.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
         message = action.payload;

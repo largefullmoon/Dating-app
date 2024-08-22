@@ -44,6 +44,7 @@
     "redux": "^5.0.1",
     "redux-devtools-extension": "^2.13.9",
     "rn-phone-number-input": "^0.3.2",
+    "socket.io-client": "^4.7.5",
     "yup": "^1.4.0"
   },
   "devDependencies": {

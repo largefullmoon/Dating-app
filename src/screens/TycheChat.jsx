@@ -1,12 +1,18 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { ScrollView, ImageBackground, View, Image, Text, TextInput, TouchableOpacity } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import RadioGroup from 'react-native-radio-buttons-group';
 const APP_NAME = "tyche"
-
+import {chatwithAI} from "../features/auth/authSlice";
 function TycheChat({ navigation }) {
     const { user } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
+    const [inputValue, setValue] = useState("");
+    const [chatList, setChatList] = useState([]);
+    useEffect(() => {
+        let history = dispatch(getAIChatHistory())
+        setChatList(history)
+    }, [])
     if (!user || !user.verified) {
         return (
             <View
@@ -19,30 +25,11 @@ function TycheChat({ navigation }) {
                     </Text>
                 </View>
                 <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', marginBottom: 20 }}>
-                    <View style={{ alignItems: 'flex-start', backgroundColor: "#FFFFFF", padding: 4, width: 240 }}>
-                        <Text style={{ fontFamily: "AverageSans", fontSize: 11 }}>Selamlar, tanıştığıma memnun oldum Murat. Bana biraz kendinden bahseder misin? Nasıl birisin; neler yapıyorsun; ve en önemlisi bu uygulamayı ne amaçla kullanacaksın. Lütfen rahat ol, sadece aramızda :)</Text>
-                    </View>
-                    <View style={{ alignItems: 'flex-end', marginTop: 10, backgroundColor: "#FFFFFF", padding: 4, width: 240, marginLeft: "20%" }}>
-                        <Text style={{ fontFamily: "AverageSans", fontSize: 11 }}>Selamlar, tanıştığıma memnun oldum Murat. Bana biraz kendinden bahseder misin? Nasıl birisin; neler yapıyorsun; ve en önemlisi bu uygulamayı ne amaçla kullanacaksın. Lütfen rahat ol, sadece aramızda :)</Text>
-                    </View>
-                    <View style={{ alignItems: 'flex-start', marginTop: 10, backgroundColor: "#FFFFFF", padding: 4, width: 240 }}>
-                        <Text style={{ fontFamily: "AverageSans", fontSize: 11 }}>Selamlar, tanıştığıma memnun oldum Murat. Bana biraz kendinden bahseder misin? Nasıl birisin; neler yapıyorsun; ve en önemlisi bu uygulamayı ne amaçla kullanacaksın. Lütfen rahat ol, sadece aramızda :)</Text>
-                    </View>
-                    <View style={{ alignItems: 'flex-end', marginTop: 10, backgroundColor: "#FFFFFF", padding: 4, width: 240, marginLeft: "20%" }}>
-                        <Text style={{ fontFamily: "AverageSans", fontSize: 11 }}>Selamlar, tanıştığıma memnun oldum Murat. Bana biraz kendinden bahseder misin? Nasıl birisin; neler yapıyorsun; ve en önemlisi bu uygulamayı ne amaçla kullanacaksın. Lütfen rahat ol, sadece aramızda :)</Text>
-                    </View>
-                    <View style={{ alignItems: 'flex-start', marginTop: 10, backgroundColor: "#FFFFFF", padding: 4, width: 240 }}>
-                        <Text style={{ fontFamily: "AverageSans", fontSize: 11 }}>Selamlar, tanıştığıma memnun oldum Murat. Bana biraz kendinden bahseder misin? Nasıl birisin; neler yapıyorsun; ve en önemlisi bu uygulamayı ne amaçla kullanacaksın. Lütfen rahat ol, sadece aramızda :)</Text>
-                    </View>
-                    <View style={{ alignItems: 'flex-end', marginTop: 10, backgroundColor: "#FFFFFF", padding: 4, width: 240, marginLeft: "20%" }}>
-                        <Text style={{ fontFamily: "AverageSans", fontSize: 11 }}>Selamlar, tanıştığıma memnun oldum Murat. Bana biraz kendinden bahseder misin? Nasıl birisin; neler yapıyorsun; ve en önemlisi bu uygulamayı ne amaçla kullanacaksın. Lütfen rahat ol, sadece aramızda :)</Text>
-                    </View>
-                    <View style={{ alignItems: 'flex-start', marginTop: 10, backgroundColor: "#FFFFFF", padding: 4, width: 240 }}>
-                        <Text style={{ fontFamily: "AverageSans", fontSize: 11 }}>Selamlar, tanıştığıma memnun oldum Murat. Bana biraz kendinden bahseder misin? Nasıl birisin; neler yapıyorsun; ve en önemlisi bu uygulamayı ne amaçla kullanacaksın. Lütfen rahat ol, sadece aramızda :)</Text>
-                    </View>
-                    <View style={{ alignItems: 'flex-end', marginTop: 10, backgroundColor: "#FFFFFF", padding: 4, width: 240, marginLeft: "20%" }}>
-                        <Text style={{ fontFamily: "AverageSans", fontSize: 11 }}>Selamlar, tanıştığıma memnun oldum Murat. Bana biraz kendinden bahseder misin? Nasıl birisin; neler yapıyorsun; ve en önemlisi bu uygulamayı ne amaçla kullanacaksın. Lütfen rahat ol, sadece aramızda :)</Text>
-                    </View>
+                    {chatList.map((item, index) => (
+                        <View key={index} style={{ alignItems: 'flex-start', marginTop: 10, backgroundColor: "#FFFFFF", padding: 4, width: 240, marginLeft:item.isUser? "20%":""}}>
+                            <Text style={{ fontFamily: "AverageSans", fontSize: 11 }}>item.message</Text>
+                        </View>
+                    ))}
                 </ScrollView>
                 <View style={{
                     flexDirection: 'row',
@@ -66,9 +53,17 @@ function TycheChat({ navigation }) {
                         fontFamily: "AverageSans",
                         backgroundColor: "#FFFFFF",
                         color: "#0F4037",
-                    }} textAlign="center" placeholder="Metin gir">
+                    }} textAlign="center" placeholder="Metin gir" onChangeText={(text) => setValue(text)}>
                     </TextInput>
-                    <Image style={{ width: 20, height: 20, marginRight: 10 }} source={require('../assets/images/Icon.png')} />
+                    <TouchableOpacity style={{
+                        width: 20, height: 20, marginRight: 10
+                    }} onPress={async() => {
+                        setChatList([...chatList, {'message': inputValue, 'isUser': true}])
+                        const responseAI = await dispatch(chatwithAI(inputValue))
+                        setChatList([...chatList, {'message': responseAI, 'isUser': false}])
+                    }}>
+                        <Image style={{ width: 20, height: 20}} source={require('../assets/images/Icon.png')} />
+                    </TouchableOpacity>
                 </View>
             </View>
         );

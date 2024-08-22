@@ -26,7 +26,7 @@ function Welcome({ navigation }) {
             height: 50,
             padding: 10,
             marginVertical: 5,
-            alignItems: 'center', backgroundColor: '#3153BB',
+            alignItems: 'center', backgroundColor: '#0F4037',
             flexDirection: 'row', justifyContent: "space-between"
           }}>
             <Image style={{ width: 30, height: 30 }} source={require('../assets/images/apple.png')} />

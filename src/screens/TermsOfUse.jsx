@@ -57,7 +57,8 @@ function TermsOfUse({ navigation }) {
                     alignItems: 'center', backgroundColor: '#0F4037',
                     marginTop: 80,
                 }}>
-                    <Text style={{ fontFamily: "AverageSans", fontSize: 25 }} onPress={() => {
+                    <Text style={{ fontFamily: "AverageSans", fontSize: 25 }} onPress={async () => {
+                        await dispatch(agreeTerms())
                         navigation.replace("PhotoVideo");
                     }}>ONAYLA</Text>
                 </TouchableOpacity>

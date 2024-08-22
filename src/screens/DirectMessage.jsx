@@ -3,6 +3,7 @@ import { ImageBackground, View, Image, Text, TextInput, TouchableOpacity, StyleS
 import { useSelector, useDispatch } from 'react-redux';
 import Svg, { Polygon } from 'react-native-svg';
 const APP_NAME = "tyche"
+import {chatwithUser} from "../features/auth/authSlice";
 const DirectionMe = () => (
     <Svg height="20" width="20" xmlns="http://www.w3.org/2000/svg" style={{ position: "absolute", bottom: -8, right: -8 }}>
         <Polygon points="0,0 15,15 0,12" fill="#0F4037" />
@@ -30,6 +31,7 @@ const messages = [
 function DirectMessage({ navigation }) {
     const { user } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
+    const [chatList, setChatList] = useState([]);
     if (!user || !user.verified) {
         return (
             <View
@@ -77,7 +79,15 @@ function DirectMessage({ navigation }) {
                         color: "#0F4037",
                     }} textAlign="center" placeholder="Metin gir">
                     </TextInput>
-                    <Image style={{ width: 20, height: 20, marginRight: 10 }} source={require('../assets/images/Icon.png')} />
+                    <TouchableOpacity style={{
+                        width: 20, height: 20, marginRight: 10
+                    }} onPress={async() => {
+                        setChatList([...chatList, {'message': inputValue, 'from': "me"}])
+                        const responseUser = await dispatch(chatwithUser(inputValue))
+                        setChatList([...chatList, {'message': responseUser, 'from': "you"}])
+                    }}>
+                        <Image style={{ width: 20, height: 20}} source={require('../assets/images/Icon.png')} />
+                    </TouchableOpacity>
                 </View>
                 <View style={{ alignItems: 'center', flexDirection: 'row', height: 70, marginTop: 10, justifyContent: "space-around", width: 350 }}>
                     <TouchableOpacity onPress={() => { navigation.replace("User"); }} >

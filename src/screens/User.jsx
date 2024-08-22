@@ -67,8 +67,16 @@ function User({ navigation }) {
                         justifyContent: "center",
                         alignItems: "center"
                     }}>
-                        <Image style={{ width: 60, height: 50 }} source={require('../assets/images/check.png')} />
-                        <Image style={{ width: 60, height: 50 }} source={require('../assets/images/times.png')} />
+                        <TouchableOpacity  style={{ width: 60, height: 50 }} onPress={() => {
+                            navigator.replace("Setting")
+                        }}>
+                            <Image style={{ width: 60, height: 50 }} source={require('../assets/images/check.png')} />
+                        </TouchableOpacity>
+                        <TouchableOpacity  style={{ width: 60, height: 50 }} onPress={() => {
+                            dispatch(saveAvatar(currentSlide))
+                        }}>
+                            <Image style={{ width: 60, height: 50 }} source={require('../assets/images/times.png')} />
+                        </TouchableOpacity>
                     </View>
                 </View>
                 <View style={{ alignItems: 'center', flexDirection: 'row', height: 70, marginTop: 10, justifyContent: "space-around", width: 350 }}>

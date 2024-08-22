@@ -2,11 +2,15 @@ import React from 'react';
 import { ImageBackground, View, Image, Text, TextInput, TouchableOpacity } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 const APP_NAME = "tyche"
-import { styles } from '../constants';
-
+import { register, updateUserInformation} from "../features/auth/authSlice";
 function PhoneCode({ navigation }) {
     const { user } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
+    const [value1, setValue1] = useState("");
+    const [value2, setValue2] = useState("");
+    const [value3, setValue3] = useState("");
+    const [value4, setValue4] = useState("");
+    const [value5, setValue5] = useState("");
     if (!user || !user.verified) {
         return (
             <View style={{ marginBottom: 20, alignItems: 'center', flex: 1, justifyContent: 'center' }}>
@@ -23,7 +27,7 @@ function PhoneCode({ navigation }) {
                         borderRadius: 25,
                         backgroundColor: "#FFFFFF",
                         fontSize: 25,
-                    }} maxLength={1} textAlign="center"></TextInput>
+                    }} maxLength={1} textAlign="center" onChangeText={(text) => setValue1(text)}></TextInput>
                     <TextInput style={{
                         margin: 10,
                         height: 50,
@@ -35,7 +39,7 @@ function PhoneCode({ navigation }) {
                         borderRadius: 25,
                         backgroundColor: "#FFFFFF",
                         fontSize: 25
-                    }} maxLength={1} textAlign="center"></TextInput>
+                    }} maxLength={1} textAlign="center" onChangeText={(text) => setValue2(text)}></TextInput>
                     <TextInput style={{
                         margin: 10,
                         height: 50,
@@ -47,7 +51,7 @@ function PhoneCode({ navigation }) {
                         borderRadius: 25,
                         backgroundColor: "#FFFFFF",
                         fontSize: 25
-                    }} maxLength={1} textAlign="center"></TextInput>
+                    }} maxLength={1} textAlign="center" onChangeText={(text) => setValue3(text)}></TextInput>
                     <TextInput style={{
                         margin: 10,
                         height: 50,
@@ -59,7 +63,7 @@ function PhoneCode({ navigation }) {
                         borderRadius: 25,
                         backgroundColor: "#FFFFFF",
                         fontSize: 25
-                    }} maxLength={1} textAlign="center"></TextInput>
+                    }} maxLength={1} textAlign="center" onChangeText={(text) => setValue4(text)}></TextInput>
                     <TextInput style={{
                         margin: 10,
                         height: 50,
@@ -72,7 +76,7 @@ function PhoneCode({ navigation }) {
                         backgroundColor: "#FFFFFF",
                         fontSize: 25,
                         textAlign: "center"
-                    }} maxLength={1} textAlign="center"></TextInput>
+                    }} maxLength={1} textAlign="center" onChangeText={(text) => setValue5(text)}></TextInput>
                 </View>
                 <TouchableOpacity style={{
                     borderRadius: 25,
@@ -84,7 +88,8 @@ function PhoneCode({ navigation }) {
                     marginTop: 40,
                     justifyContent: "center"
                 }}
-                    onPress={() => {
+                    onPress={async() => {
+                        await dispatch(verifyPhoneNumber(''+value1+value2+value3+value4+value5))
                         navigation.replace("LoadingTycheChat");
                     }}>
                     <Text style={{ fontFamily: "AverageSans", fontSize: 25, color:"white"}}>Tekrar Gönder</Text>

@@ -29,7 +29,7 @@ function LoadingTycheChat({ navigation }) {
                         alignItems: 'center', backgroundColor: '#0F4037',
                         marginTop: 80,
                     }} onPress={() => {
-                        navigation.replace("RegisterCompleted");
+                        navigation.replace("TycheChat");
                     }}>
                         <Text style={{ fontFamily: "AverageSans", fontSize: 25, color: "white"}}>BAŞLA</Text>
                     </TouchableOpacity>
