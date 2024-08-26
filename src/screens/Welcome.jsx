@@ -48,7 +48,7 @@ function Welcome({ navigation }) {
             flexDirection: 'row', justifyContent: "space-between"
           }}
             onPress={() => {
-              navigation.replace("Register");
+              navigation.replace("PhotoVideo");
             }}>
             <Image style={{ width: 30, height: 30 }} source={require('../assets/images/phone.png')} />
             <Text style={{

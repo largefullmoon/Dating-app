@@ -9,6 +9,7 @@ const initialState = {
   userInformation: {},
   selectedPlan: 'standard',
   message: "",
+  photoList: [],
 };
 export const updateUserInformation = createAsyncThunk("auth/updateUserInformation", async (params, thunkAPI) => {
   try {
@@ -73,7 +74,7 @@ export const getChatUsers = createAsyncThunk("auth/getChatUsers", async (thunkAP
   }
 })
 
-export const chatwithAI = createAsyncThunk("auth/chatwithAI", async (thunkAPI) => {
+export const chatwithAI = createAsyncThunk("auth/chatwithAI", async (data, thunkAPI) => {
   try {
     return await authService.chatwithAI();
   } catch (error) {
@@ -153,6 +154,53 @@ export const resetPassword = createAsyncThunk(
     }
   }
 );
+export const uploadPhoto = createAsyncThunk(
+  "auth/uploadPhoto",
+  async (payload, thunkAPI) => {
+    try {
+      return await authService.uploadPhoto(payload);
+    } catch (error) {
+      console.log(error.response.data.message);
+      const message =
+        (error.response && error.response.data && response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const agreeTerms = createAsyncThunk(
+  "auth/agreeTerms",
+  async (payload, thunkAPI) => {
+    try {
+      return await authService.agreeTerms(payload);
+    } catch (error) {
+      console.log(error.response.data.message);
+      const message =
+        (error.response && error.response.data && response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const getPhotoList = createAsyncThunk(
+  "auth/getPhotoList",
+  async (payload, thunkAPI) => {
+    try {
+      return await authService.getPhotoList(payload);
+    } catch (error) {
+      console.log(error.response.data.message);
+      const message =
+        (error.response && error.response.data && response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
 
 export const authSlice = createSlice({
   name: "auth",
@@ -195,16 +243,52 @@ export const authSlice = createSlice({
         user = null
       })
       .addCase(register.fulfilled, (state, action) => {
-        // state.isLoading = false;
-        // state.isSuccess = true;
-        // state.user = action.payload;
-        alert(JSON.stringify(state.userInformation))
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.user = action.payload;
       })
       .addCase(register.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
         state.user = null;
+      })
+      .addCase(agreeTerms.pending, (state) => {
+        state.status = "pending"
+        state.message = "saving..."
+      })
+      .addCase(agreeTerms.fulfilled, (state, action) => {
+        state.status = "success"
+        state.message = "saved"
+      })
+      .addCase(agreeTerms.rejected, (state, action) => {
+        state.status = "error"
+        state.message = "rejected"
+      })
+      .addCase(uploadPhoto.pending, (state) => {
+        state.status = "pending"
+        state.message = "saving..."
+      })
+      .addCase(uploadPhoto.fulfilled, (state, action) => {
+        state.status = "success"
+        state.message = "saved"
+      })
+      .addCase(uploadPhoto.rejected, (state, action) => {
+        state.status = "error"
+        state.message = "rejected"
+      })
+      .addCase(getPhotoList.pending, (state) => {
+        state.status = "pending"
+        state.message = "saving..."
+      })
+      .addCase(getPhotoList.fulfilled, (state, action) => {
+        state.status = "success"
+        state.message = "saved"
+        state.photoList = action.payload
+      })
+      .addCase(getPhotoList.rejected, (state, action) => {
+        state.status = "error"
+        state.message = "rejected"
       })
       .addCase(login.fulfilled, (state, action) => {
         state.isLoading = false;

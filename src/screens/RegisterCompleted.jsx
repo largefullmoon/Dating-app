@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { ImageBackground, View, Image, Text, TextInput, TouchableOpacity } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 const APP_NAME = "tyche"
@@ -6,6 +6,11 @@ const APP_NAME = "tyche"
 function RegisterCompleted({ navigation }) {
     const { user } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
+    useEffect(() => {
+        setTimeout(() => {
+            navigation.replace("TermsOfUse")
+        }, 3000);
+    }, [])
     if (!user || !user.verified) {
         return (
             <View

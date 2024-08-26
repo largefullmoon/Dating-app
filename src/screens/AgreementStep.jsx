@@ -19,7 +19,7 @@ function AgreementStep({ navigation }) {
                     </Text>
                 </View>
                 <View style={{ marginBottom: 20, alignItems: 'center', flex: 1, justifyContent: 'center' }}>
-                    <Text style={{ fontFamily: "AverageSans", fontSize: 15, color: '#0F4037' }}>Acele etmeyin, tyche’ın sadece 1 adım uzakta. Bu adımda seninle kısa bir sohbet gerçekleştireceğiz. Bize ayıracağın 5 dakikan vardır umarım :)</Text>
+                    <Text style={{ fontFamily: "AverageSans", fontSize: 15, color: '#0F4037' }}>Acele etmeyin, tyche’ın sadece 1{"\n"}adım uzakta. Bu adımda seninle kısa{"\n"}bir sohbet gerçekleştireceğiz. Bize {"\n"}ayıracağın 5 dakikan vardır umarım :)</Text>
                     <TouchableOpacity style={{
                         borderRadius: 25,
                         width: 300,
@@ -28,8 +28,11 @@ function AgreementStep({ navigation }) {
                         marginVertical: 5,
                         alignItems: 'center', backgroundColor: '#0F4037',
                         marginTop: 80,
+                    }} onPress={async() => {
+                        // await dispatch(agreeTerms({"email":user.email}))
+                        navigation.replace("TycheChat")
                     }}>
-                        <Text style={{ fontFamily: "AverageSans", fontSize: 25 }}>BAŞLA</Text>
+                        <Text style={{ fontFamily: "AverageSans", fontSize: 25, color: "white"}}>BAŞLA</Text>
                     </TouchableOpacity>
                 </View>
             </View>

@@ -1,9 +1,9 @@
 import axios from "axios";
 const BASE_URL = "https://in-enough-yak.ngrok-free.app";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import io from 'socket.io-client';
-//Register user
-const socket = io(BASE_URL);
+// import io from 'socket.io-client';
+// //Register user
+// const socket = io(BASE_URL);
 const register = async (userData) => {
   userData.userInformation['phoneNumber'] = userData.phoneNumner
   const response = await axios.post(`${BASE_URL}/registerUser`, userData.userInformation);
@@ -66,12 +66,12 @@ const getAIChatHistory = async () => {
   }
 };
 
-const chatwithAI = async () => {
+const chatwithAI = async (postData) => {
   try {
-    const response = await axios.post(`${BASE_URL}/chatwithAI`, userData);
+    const response = await axios.post(`${BASE_URL}/chatwithAI`, postData);
     if (await response) {
       try {
-        return response.data.message;
+        return response.data.message;Moo
       } catch (error) {
         return error;
       }
@@ -83,22 +83,22 @@ const chatwithAI = async () => {
 
 const getChatUsers = async () => {
   return new Promise((resolve, reject) => {
-    try {
-      // Emit the message to the server
-      socket.emit('message', message);
+    // try {
+    //   // Emit the message to the server
+    //   socket.emit('message', message);
 
-      // Listen for the response from the server
-      socket.on('response', (data) => {
-        resolve(data);  // Resolve the promise with the received data
-      });
+    //   // Listen for the response from the server
+    //   socket.on('response', (data) => {
+    //     resolve(data);  // Resolve the promise with the received data
+    //   });
 
-      // Optionally, handle other socket events like errors
-      socket.on('error', (error) => {
-        reject(error);  // Reject the promise if there is an error
-      });
-    } catch (e) {
-      reject(e);  // Reject the promise in case of other errors
-    }
+    //   // Optionally, handle other socket events like errors
+    //   socket.on('error', (error) => {
+    //     reject(error);  // Reject the promise if there is an error
+    //   });
+    // } catch (e) {
+    //   reject(e);  // Reject the promise in case of other errors
+    // }
   });
 }
 
@@ -126,7 +126,7 @@ const forgotPassword = async (userData) => {
 
 //Register user
 const verifyEmail = async (userData) => {
-  const response = await axios.put(`${BASE_URL}/verifyEmail`, userData);
+  const response = await axios.post(`${BASE_URL}/verifyEmail`, userData);
   if (await response.data) {
     try {
       await AsyncStorage.setItem("@user", JSON.stringify(response.data));
@@ -142,7 +142,7 @@ const verifyEmail = async (userData) => {
 
 //Reset password
 const resetPassword = async (userData) => {
-  const response = await axios.put(`${BASE_URL}/reset_password`, userData);
+  const response = await axios.post(`${BASE_URL}/reset_password`, userData);
   if (await response.data) {
     try {
       await AsyncStorage.setItem("@user", JSON.stringify(response.data));
@@ -153,6 +153,35 @@ const resetPassword = async (userData) => {
     }
   }
 
+  return response.data;
+};
+const uploadPhoto = async (file) => {
+  const formData = new FormData();
+  formData.append('file', {
+    uri: file.uri, // The local path of the file
+    name: file.name || 'photo.jpg', // Optional file name
+    type: file.type || 'image/jpeg', // Optional MIME type
+  });
+
+  try {
+    const response = await axios.post(`${BASE_URL}/uploadPhoto`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error uploading file:', error);
+    throw new Error(error);
+  }
+};
+const agreeTerms = async (userData) => {
+  const response = await axios.post(`${BASE_URL}/agreeTerms`, userData);
+  return response.data;
+};
+
+const getPhotoList = async (userData) => {
+  const response = await axios.post(`${BASE_URL}/getPhotoList`, userData);
   return response.data;
 };
 
@@ -167,7 +196,10 @@ const authService = {
   getAIChatHistory,
   getChatUsers,
   chatwithAI,
-  chatwithUser
+  chatwithUser,
+  agreeTerms,
+  uploadPhoto,
+  getPhotoList
 };
 
 export default authService;

@@ -1,18 +1,29 @@
 import React, { useState, useMemo } from 'react';
 import { ImageBackground, View, Image, Text, TextInput, TouchableOpacity } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
+import { agreeTerms } from "../features/auth/authSlice";
 const APP_NAME = "tyche"
-const Dot = ({ onPress }) => (
-    <TouchableOpacity style={{
-        height: 12,
-        width: 12,
-        borderRadius: 6,
-        backgroundColor: '#bbb',
-        marginHorizontal: 4,
-    }} onPress={onPress} />
+const Dot = ({onPress, isCurrent}) => (
+    isCurrent == true ? (
+        <TouchableOpacity style={{
+            height: 12,
+            width: 12,
+            borderRadius: 6,
+            backgroundColor: 'black',
+            marginHorizontal: 4,
+        }} onPress={onPress} />
+    ): (
+        <TouchableOpacity style={{
+            height: 12,
+            width: 12,
+            borderRadius: 6,
+            backgroundColor: '#bbb',
+            marginHorizontal: 4,
+        }} onPress={onPress} />
+    )
 );
 function TermsOfUse({ navigation }) {
-    const { user } = useSelector((state) => state.auth);
+    const { user, userInformation } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
     const [currentSlide, setCurrentSlide] = useState(1);
     if (!user || !user.verified) {
@@ -43,10 +54,10 @@ function TermsOfUse({ navigation }) {
                     alignItems: 'center',
                     marginTop: 20,  
                 }}>
-                    <Dot onPress={() => setCurrentSlide(1)} />
-                    <Dot onPress={() => setCurrentSlide(2)} />
-                    <Dot onPress={() => setCurrentSlide(3)} />
-                    <Dot onPress={() => setCurrentSlide(4)} />
+                    <Dot onPress={() => setCurrentSlide(1)} isCurrent={currentSlide==1} />
+                    <Dot onPress={() => setCurrentSlide(2)} isCurrent={currentSlide==2} />
+                    <Dot onPress={() => setCurrentSlide(3)} isCurrent={currentSlide==3} />
+                    <Dot onPress={() => setCurrentSlide(4)} isCurrent={currentSlide==4} />
                 </View>
                 <TouchableOpacity style={{
                     borderRadius: 25,
@@ -57,8 +68,8 @@ function TermsOfUse({ navigation }) {
                     alignItems: 'center', backgroundColor: '#0F4037',
                     marginTop: 80,
                 }}>
-                    <Text style={{ fontFamily: "AverageSans", fontSize: 25 }} onPress={async () => {
-                        await dispatch(agreeTerms())
+                    <Text style={{ fontFamily: "AverageSans", fontSize: 25, color: "white"}} onPress={async () => {
+                        await dispatch(agreeTerms(user))
                         navigation.replace("PhotoVideo");
                     }}>ONAYLA</Text>
                 </TouchableOpacity>

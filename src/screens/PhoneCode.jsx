@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState}from 'react';
 import { ImageBackground, View, Image, Text, TextInput, TouchableOpacity } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 const APP_NAME = "tyche"
@@ -89,7 +89,7 @@ function PhoneCode({ navigation }) {
                     justifyContent: "center"
                 }}
                     onPress={async() => {
-                        await dispatch(verifyPhoneNumber(''+value1+value2+value3+value4+value5))
+                        // await dispatch(verifyPhoneNumber(''+value1+value2+value3+value4+value5))
                         navigation.replace("LoadingTycheChat");
                     }}>
                     <Text style={{ fontFamily: "AverageSans", fontSize: 25, color:"white"}}>Tekrar Gönder</Text>
