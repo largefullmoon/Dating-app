@@ -1,5 +1,5 @@
 import axios from "axios";
-const BASE_URL = "https://in-enough-yak.ngrok-free.app";
+const BASE_URL = "https://pumped-stirred-emu.ngrok-free.app";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 // import io from 'socket.io-client';
 // //Register user
@@ -81,25 +81,31 @@ const chatwithAI = async (postData) => {
   }
 }
 
-const getChatUsers = async () => {
-  return new Promise((resolve, reject) => {
-    // try {
-    //   // Emit the message to the server
-    //   socket.emit('message', message);
-
-    //   // Listen for the response from the server
-    //   socket.on('response', (data) => {
-    //     resolve(data);  // Resolve the promise with the received data
-    //   });
-
-    //   // Optionally, handle other socket events like errors
-    //   socket.on('error', (error) => {
-    //     reject(error);  // Reject the promise if there is an error
-    //   });
-    // } catch (e) {
-    //   reject(e);  // Reject the promise in case of other errors
-    // }
+const getChatUsers = async (userData) => {
+  const response = await axios.post(`${BASE_URL}/getChatUsers`, userData, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
   });
+  return response.data.data;
+  // return new Promise((resolve, reject) => {
+  //   try {
+  //     // Emit the message to the server
+  //     socket.emit('message', message);
+
+  //     // Listen for the response from the server
+  //     socket.on('response', (data) => {
+  //       resolve(data);  // Resolve the promise with the received data
+  //     });
+
+  //     // Optionally, handle other socket events like errors
+  //     socket.on('error', (error) => {
+  //       reject(error);  // Reject the promise if there is an error
+  //     });
+  //   } catch (e) {
+  //     reject(e);  // Reject the promise in case of other errors
+  //   }
+  // });
 }
 
 const chatwithUser = async () => {
@@ -181,9 +187,19 @@ const agreeTerms = async (userData) => {
 };
 
 const getPhotoList = async (userData) => {
-  const response = await axios.post(`${BASE_URL}/getPhotoList`, userData);
-  return response.data;
+  const response = await axios.post(`${BASE_URL}/getPhotoList`, userData, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  return response.data.photos;
 };
+
+const selectPlan = async (params) => {
+  const response = await axios.post(`${BASE_URL}/selectPlan`, params);
+  return response.data.plan;
+};
+
 
 const authService = {
   register,
@@ -199,7 +215,8 @@ const authService = {
   chatwithUser,
   agreeTerms,
   uploadPhoto,
-  getPhotoList
+  getPhotoList,
+  selectPlan
 };
 
 export default authService;

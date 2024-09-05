@@ -20,8 +20,8 @@ function PlanList({ navigation }) {
                 </View>
                 <View style={{ alignItems: "center", justifyContent: "center", flex: 1 }}>
                     <View style={{ justifyContent: "center", alignItems: "center", width: 350 }}>
-                        <Image style={{ width: 80, height: 80 }} source={require('../assets/images/frame.png')} />
-                        <Image style={{ width: 80, height: 80, position: 'absolute' }} source={require('../assets/images/faces/1.png')} />
+                        <Image style={{ width: 130, height: 130 }} source={require('../assets/images/frame.png')} />
+                        <Image style={{ width: 130, height: 130, position: 'absolute' }} source={require('../assets/images/faces/1.png')} />
                     </View>
                     <TouchableOpacity style={{
                         borderRadius: 25,
@@ -32,7 +32,7 @@ function PlanList({ navigation }) {
                         backgroundColor: '#0F4037',
                         marginTop: 10
                     }}>
-                        <Text style={{ fontFamily: "AverageSans", fontSize: 15 }} onPress={() => {
+                        <Text style={{ fontFamily: "AverageSans", fontSize: 15 , color: 'white' }} onPress={() => {
                         }}>Beyazıt</Text>
                     </TouchableOpacity>
                     <View style={{ borderColor: "#0F4037", borderRadius: 25, borderWidth: 1, width: 300, marginTop: 10 }}>
@@ -93,7 +93,7 @@ function PlanList({ navigation }) {
                         alignItems: 'center',
                         backgroundColor: '#0F4037',
                     }}>
-                        <Text style={{ fontFamily: "AverageSans", fontSize: 15 }} onPress={() => {
+                        <Text style={{ fontFamily: "AverageSans", fontSize: 15, color: 'white' }} onPress={() => {
                             navigation.replace("Chatting");
                         }}>Planını Değiştir</Text>
                     </TouchableOpacity>

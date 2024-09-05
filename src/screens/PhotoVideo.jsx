@@ -4,15 +4,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import CircleXFill from '../assets/images/circle-x-fill-24.svg';
 import CircleCheckFill from '../assets/images/circle-check-fill-24.svg';
 const APP_NAME = "tyche"
-const BASE_URL = "https://in-enough-yak.ngrok-free.app"
+const BASE_URL = "https://pumped-stirred-emu.ngrok-free.app"
 import DocumentPicker from 'react-native-document-picker';
 import { uploadPhoto, getPhotoList } from "../features/auth/authSlice";
 function PhotoVideo({ navigation }) {
     const { user, photoList } = useSelector((state) => state.auth);
     useEffect(() => {
         async function fetchData() {
-            let list = await dispatch(getPhotoList()).unwrap()
-            console.log(list)
+            await dispatch(getPhotoList(user))
         }
         fetchData()
     }, [])
@@ -53,11 +52,11 @@ function PhotoVideo({ navigation }) {
                     <TouchableOpacity style={{ width: 24, position: "absolute", top: "20%", left: "13%" }} onPress={() => { selectFile() }} >
                         <Image source={require('../assets/images/add_circle.png')} />
                     </TouchableOpacity>
-                    <Image source={{ uri: `${BASE_URL}/getPhoto/1.jpg` }} style={{ width: 100, height: 100, position: "absolute", top: "7.5%", left: "35%" }} />
+                    <Image source={{ uri: `${BASE_URL}/getPhoto/2.jpg` }} style={{ width: 100, height: 100, position: "absolute", top: "7.5%", left: "35%" }} />
                     <TouchableOpacity style={{ width: 24, position: "absolute", top: "20%", left: "45%" }} onPress={() => { selectFile() }} >
                         <Image source={require('../assets/images/add_circle.png')} />
                     </TouchableOpacity>
-                    <Image source={{ uri: `${BASE_URL}/getPhoto/1.jpg` }} style={{ width: 100, height: 100, position: "absolute", top: "7.5%", left: "67%" }} />
+                    <Image source={{ uri: `${BASE_URL}/getPhoto/4.png` }} style={{ width: 100, height: 100, position: "absolute", top: "7.5%", left: "67%" }} />
                     <TouchableOpacity style={{ width: 24, position: "absolute", top: "20%", left: "77%" }} onPress={() => { selectFile() }} >
                         <Image source={require('../assets/images/add_circle.png')} />
                     </TouchableOpacity>
@@ -65,11 +64,11 @@ function PhotoVideo({ navigation }) {
                     <TouchableOpacity style={{ width: 24, position: "absolute", top: "63%", left: "13%" }} onPress={() => { selectFile() }} >
                         <Image source={require('../assets/images/add_circle.png')} />
                     </TouchableOpacity>
-                    <Image source={{ uri: `${BASE_URL}/getPhoto/1.jpg` }} style={{ width: 100, height: 100, position: "absolute", top: "49%", left: "35%" }} />
+                    <Image source={{ uri: `${BASE_URL}/getPhoto/3.png` }} style={{ width: 100, height: 100, position: "absolute", top: "49%", left: "35%" }} />
                     <TouchableOpacity style={{ width: 24, position: "absolute", top: "63%", left: "45%" }} onPress={() => { selectFile() }} >
                         <Image source={require('../assets/images/add_circle.png')} />
                     </TouchableOpacity>
-                    <Image source={{ uri: `${BASE_URL}/getPhoto/1.jpg` }} style={{ width: 100, height: 100, position: "absolute", top: "49%", left: "67%" }} />
+                    <Image source={{ uri: `${BASE_URL}/getPhoto/2.jpg` }} style={{ width: 100, height: 100, position: "absolute", top: "49%", left: "67%" }} />
                     <TouchableOpacity style={{ width: 24, position: "absolute", top: "63%", left: "77%" }} onPress={() => { selectFile() }} >
                         <Image source={require('../assets/images/add_circle.png')} />
                     </TouchableOpacity>

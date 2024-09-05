@@ -1,14 +1,20 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import authService from "./authService";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const initialState = {
-  user: null,
+  user: AsyncStorage.getItem("user") ? AsyncStorage.getItem("user") : null,
   isSuccess: false,
   isError: false,
   isLoading: false,
   userInformation: {},
-  selectedPlan: 'standard',
+  selectedPlan: AsyncStorage.getItem("selectedPlan") ? AsyncStorage.getItem("selectedPlan") : 'standard',
   message: "",
+  chatUsers: [
+    { "name": "Beyazıt", "lastMessage": "Oturuyorum sen napıyosunn", "photo": "1.png" },
+    { "name": "Murat", "lastMessage": "Selamm", "photo": "1.png" },
+    { "name": "Oğuz", "lastMessage": "Akrep seninn", "photo": "1.png" }
+  ],
   photoList: [],
 };
 export const updateUserInformation = createAsyncThunk("auth/updateUserInformation", async (params, thunkAPI) => {
@@ -19,6 +25,24 @@ export const updateUserInformation = createAsyncThunk("auth/updateUserInformatio
   }
 }
 );
+export const selectPlan = createAsyncThunk("auth/selectPlan", async (params, thunkAPI) => {
+  try {
+    return await authService.selectPlan(params);
+  } catch {
+    return "update userinformation failed";
+  }
+}
+);
+
+export const setChatUser = createAsyncThunk("auth/setChatUser", async (chatUser, thunkAPI) => {
+  try {
+    return { "key": "dmUser", "value": chatUser}
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response.data.message);
+  }
+}
+);
+// 
 //Register user
 export const register = createAsyncThunk("auth/register", async (userInformation, thunkAPI) => {
   try {
@@ -62,9 +86,9 @@ export const getAIChatHistory = createAsyncThunk("auth/getAIChatHistory", async 
     return thunkAPI.rejectWithValue(message);
   }
 })
-export const getChatUsers = createAsyncThunk("auth/getChatUsers", async (thunkAPI) => {
+export const getChatUsers = createAsyncThunk("auth/getChatUsers", async (userData, thunkAPI) => {
   try {
-    return await authService.getChatUsers();
+    return await authService.getChatUsers(userData);
   } catch (error) {
     const message =
       (error.response && error.response.data && response.data.message) ||
@@ -213,34 +237,24 @@ export const authSlice = createSlice({
       state.message = "";
       state.user = null;
       state.userInformation = null;
+      state.chatUsers = [];
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(updateUserInformation.pending, (state, action) => {
-        state.isLoading = true;
-        isError = false
-        isSuccess = false
-        message = null
-        user = null
-      })
       .addCase(updateUserInformation.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.userInformation[action.payload.key] = action.payload.value
+        state.user[action.payload.key] = action.payload.value
+        AsyncStorage.setItem('user', state.user)
       })
-      .addCase(updateUserInformation.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.message = action.payload;
-        state.user = null;
+      .addCase(setChatUser.fulfilled, (state, action) => {
+        state.user[action.payload.key] = action.payload.value
+        AsyncStorage.setItem('user', state.user)
       })
       .addCase(register.pending, (state) => {
         state.isLoading = true;
         isError = false
         isSuccess = false
         message = null
-        user = null
       })
       .addCase(register.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -289,6 +303,20 @@ export const authSlice = createSlice({
       .addCase(getPhotoList.rejected, (state, action) => {
         state.status = "error"
         state.message = "rejected"
+      })
+      .addCase(getChatUsers.pending, (state) => {
+        state.status = "pending"
+        state.message = "saving..."
+      })
+      .addCase(getChatUsers.fulfilled, (state, action) => {
+        state.status = "success"
+        state.message = "saved"
+        state.chatUsers = action.payload
+      })
+      .addCase(getChatUsers.rejected, (state, action) => {
+        state.status = "error"
+        state.message = "rejected"
+        state.chatUsers = []
       })
       .addCase(login.fulfilled, (state, action) => {
         state.isLoading = false;

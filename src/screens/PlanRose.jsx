@@ -1,13 +1,13 @@
 import React, { useState, useMemo } from 'react';
-import { ImageBackground, View, Platform , Image, Text, TextInput, TouchableOpacity } from 'react-native';
+import { ImageBackground, View, Platform, Image, Text, TextInput, TouchableOpacity } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 const APP_NAME = "tyche"
-const Dot = ({ onPress,  active}) => (
+const Dot = ({ onPress, active }) => (
     <TouchableOpacity style={{
         height: 12,
         width: 12,
         borderRadius: 6,
-        backgroundColor: active==true?'black':'#bbb',
+        backgroundColor: active == true ? 'black' : '#bbb',
         marginHorizontal: 4,
     }} onPress={onPress} />
 );
@@ -20,15 +20,14 @@ function PlanRose({ navigation }) {
             <View
                 style={{ backgroundColor: '#B22222', alignItems: 'center', flex: 1 }}
             >
-                <View style={{ alignItems: 'center', width: 200, borderWidth: 1, borderColor: "white", marginTop: 50 }}>
-                    <View style={{ alignItems: 'center', flexDirection: 'row', height: 100 }}>
-                        <Image style={{ width: 80, height: 80 }} source={require('../assets/images/logo.png')} />
-                        <Text style={{ fontSize: 30, fontFamily: 'Quintessential', color: '#0F4037' }}>
-                            {APP_NAME}
-                        </Text>
-                    </View>
+                <TouchableOpacity style={{ alignItems: 'center', height: 50, width: 50, position: 'absolute', left: 10, top: 30 }} onPress={() => {
+                    navigation.replace("PlanList");
+                }}>
+                    <Image style={{ width: 50, height: 50 }} source={require('../assets/images/whiteExit.png')}></Image>
+                </TouchableOpacity>
+                <TouchableOpacity style={{ borderRadius: 10, alignItems: 'center', width: 200, height: 100, justifyContent: "center", borderWidth: 1, borderColor: "white", marginTop: 100 }}>
                     <Text style={{ color: "white", fontSize: 30, fontFamily: "AverageSans" }}>ROSE</Text>
-                </View>
+                </TouchableOpacity>
                 <View style={{ flex: 1, alignItems: "center", justifyContent: "flex-start", marginTop: 20 }}>
                     {currentSlide == 1 ?
                         <View style={{ alignItems: "center", justifyContent: "flex-start" }}>
@@ -61,13 +60,13 @@ function PlanRose({ navigation }) {
                         alignItems: 'center',
                         marginTop: 20,
                     }}>
-                        <Dot onPress={() => setCurrentSlide(1)}  active={currentSlide==1}/>
-                        <Dot onPress={() => setCurrentSlide(2)}  active={currentSlide==2}/>
-                        <Dot onPress={() => setCurrentSlide(3)}  active={currentSlide==3}/>
-                        <Dot onPress={() => setCurrentSlide(4)}  active={currentSlide==4}/>
+                        <Dot onPress={() => setCurrentSlide(1)} active={currentSlide == 1} />
+                        <Dot onPress={() => setCurrentSlide(2)} active={currentSlide == 2} />
+                        <Dot onPress={() => setCurrentSlide(3)} active={currentSlide == 3} />
+                        <Dot onPress={() => setCurrentSlide(4)} active={currentSlide == 4} />
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: 350, marginTop: 10 }}>
-                        <View style={{ alignItems: "center", justifyContent: 'space-between', width: 120, height: 200, borderColor: "white", borderWidth: 1, padding: 5 }}>
+                        <View style={{ alignItems: "center", justifyContent: 'space-between', width: 80, margin: 1, borderRadius: 5, height: 130, borderColor: "white", borderWidth: 1, padding: 5 }}>
                             <Text style={{ color: "white", fontSize: 20, fontFamily: "AverageSans" }}>1</Text>
                             <Text style={{ color: "white", fontSize: 20, fontFamily: "AverageSans" }}>Ay</Text>
                             <Text style={{ color: "white", fontSize: 20, fontFamily: "AverageSans" }}>379,99 ₺</Text>
@@ -75,7 +74,7 @@ function PlanRose({ navigation }) {
                                 <Text style={{ color: "white", fontSize: 10, fontFamily: "AverageSans" }}>KAZANÇ %52</Text>
                             </TouchableOpacity>
                         </View>
-                        <View style={{ alignItems: "center", justifyContent: 'space-between', width: 120, height: 200, borderColor: "white", borderWidth: 1, padding: 5 }}>
+                        <View style={{ alignItems: "center", justifyContent: 'space-between', width: 80, margin: 1, borderRadius: 5, height: 130, borderColor: "white", borderWidth: 1, padding: 5 }}>
                             <Text style={{ color: "white", fontSize: 20, fontFamily: "AverageSans" }}>1</Text>
                             <Text style={{ color: "white", fontSize: 20, fontFamily: "AverageSans" }}>Ay</Text>
                             <Text style={{ color: "white", fontSize: 20, fontFamily: "AverageSans" }}>379,99 ₺</Text>
@@ -83,7 +82,7 @@ function PlanRose({ navigation }) {
                                 <Text style={{ color: "white", fontSize: 10, fontFamily: "AverageSans" }}>KAZANÇ %52</Text>
                             </TouchableOpacity>
                         </View>
-                        <View style={{ alignItems: "center", justifyContent: 'space-between', width: 120, height: 200, borderColor: "white", borderWidth: 1, padding: 5 }}>
+                        <View style={{ alignItems: "center", justifyContent: 'space-between', width: 80, margin: 1, borderRadius: 5, height: 130, borderColor: "white", borderWidth: 1, padding: 5 }}>
                             <Text style={{ color: "white", fontSize: 20, fontFamily: "AverageSans" }}>1</Text>
                             <Text style={{ color: "white", fontSize: 20, fontFamily: "AverageSans" }}>Ay</Text>
                             <Text style={{ color: "white", fontSize: 20, fontFamily: "AverageSans" }}>379,99 ₺</Text>
@@ -91,7 +90,7 @@ function PlanRose({ navigation }) {
                                 <Text style={{ color: "white", fontSize: 10, fontFamily: "AverageSans" }}>KAZANÇ %52</Text>
                             </TouchableOpacity>
                         </View>
-                        <View style={{ alignItems: "center", justifyContent: 'space-between', width: 120, height: 200, borderColor: "white", borderWidth: 1, padding: 5 }}>
+                        <View style={{ alignItems: "center", justifyContent: 'space-between', width: 80, margin: 1, borderRadius: 5, height: 130, borderColor: "white", borderWidth: 1, padding: 5 }}>
                             <Text style={{ color: "white", fontSize: 20, fontFamily: "AverageSans" }}>1</Text>
                             <Text style={{ color: "white", fontSize: 20, fontFamily: "AverageSans" }}>Ay</Text>
                             <Text style={{ color: "white", fontSize: 20, fontFamily: "AverageSans" }}>379,99 ₺</Text>
@@ -99,7 +98,7 @@ function PlanRose({ navigation }) {
                                 <Text style={{ color: "white", fontSize: 10, fontFamily: "AverageSans" }}>KAZANÇ %52</Text>
                             </TouchableOpacity>
                         </View>
-                        <View style={{ alignItems: "center", justifyContent: 'space-between', width: 120, height: 200, borderColor: "white", borderWidth: 1, padding: 5 }}>
+                        <View style={{ alignItems: "center", justifyContent: 'space-between', width: 80, margin: 1, borderRadius: 5, height: 130, borderColor: "white", borderWidth: 1, padding: 5 }}>
                             <Text style={{ color: "white", fontSize: 20, fontFamily: "AverageSans" }}>1</Text>
                             <Text style={{ color: "white", fontSize: 20, fontFamily: "AverageSans" }}>Ay</Text>
                             <Text style={{ color: "white", fontSize: 20, fontFamily: "AverageSans" }}>379,99 ₺</Text>
@@ -117,6 +116,7 @@ function PlanRose({ navigation }) {
                     marginVertical: 5,
                     alignItems: 'center', backgroundColor: '#B22222',
                     marginTop: 80,
+                    marginBottom: 50,
                     ...Platform.select({
                         ios: {
                             shadowColor: '#000',
@@ -130,7 +130,7 @@ function PlanRose({ navigation }) {
                     }),
                 }} >
                     <Text style={{ fontFamily: "AverageSans", fontSize: 25, color: "white" }} onPress={() => {
-                        navigation.replace("PhotoVideo");
+                        dispatch(selectPlan({ "plan": "rose" , "email":user.email}));
                     }}>DEVAM ET</Text>
                 </TouchableOpacity>
             </View >

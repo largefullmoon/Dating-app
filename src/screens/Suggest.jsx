@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { ImageBackground, View, Image, Text, TextInput, TouchableOpacity } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 const APP_NAME = "tyche"
@@ -7,6 +7,15 @@ function Suggest({ navigation }) {
     const { user } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
     const [currentSlide, setCurrentSlide] = useState(1);
+    const [suggestUsers, setSuggestUsers] = useState([]);
+    useEffect(()=>{
+        getSuggestMatchs()
+    },[])
+    
+    const getSuggestMatchs = async () => {
+        let result = await dispatch(getSuggestMatchs());
+        setSuggestUsers(result)
+    }
     if (!user || !user.verified) {
         return (
             <View
@@ -26,41 +35,15 @@ function Suggest({ navigation }) {
                     </View>
                     <Text style={{ textAlign: "left", width: 350, alignItems: "flex-start", marginTop: 10, color: "#0F4037", fontSize: 30, fontFamily: "AverageSans" }}>Eşleşme Önerileri</Text>
                     <View style={{ alignItems: "center", flexDirection: "row", marginTop: 20, justifyContent: "space-around" }}>
-                        <View style={{ justifyContent: "center", alignItems: "center", width: 50 }}>
-                            <View>
-                                <Image style={{ width: 60, height: 60 }} source={require('../assets/images/blurframe.png')} />
-                                <Image style={{ width: 50, height: 50, margin: 5, position: 'absolute' }} source={require(`../assets/images/blur.png`)} />
+                        {suggestUsers.map((person, index) => (
+                            <View style={{ justifyContent: "center", alignItems: "center", width: 50 }}>
+                                <View>
+                                    <Image style={{ width: 60, height: 60 }} source={require('../assets/images/blurframe.png')} />
+                                    <Image style={{ width: 50, height: 50, margin: 5, position: 'absolute' }} source={require(`../assets/images/blur.png`)} />
+                                </View>
+                                <Text style={{ color: "#0F4037", fontSize: 20 }}>person.name</Text>
                             </View>
-                            <Text style={{ color: "#0F4037", fontSize: 20 }}>Ece</Text>
-                        </View>
-                        <View style={{ justifyContent: "center", alignItems: "center", width: 50 }}>
-                            <View>
-                                <Image style={{ width: 60, height: 60 }} source={require('../assets/images/blurframe.png')} />
-                                <Image style={{ width: 50, height: 50, margin: 5, position: 'absolute' }} source={require(`../assets/images/blur.png`)} />
-                            </View>
-                            <Text style={{ color: "#0F4037", fontSize: 20 }}>Aslı</Text>
-                        </View>
-                        <View style={{ justifyContent: "center", alignItems: "center", width: 50 }}>
-                            <View>
-                                <Image style={{ width: 60, height: 60 }} source={require('../assets/images/blurframe.png')} />
-                                <Image style={{ width: 50, height: 50, margin: 5, position: 'absolute' }} source={require(`../assets/images/blur.png`)} />
-                            </View>
-                            <Text style={{ color: "#0F4037", fontSize: 20 }}>Buse</Text>
-                        </View>
-                        <View style={{ justifyContent: "center", alignItems: "center", width: 50 }}>
-                            <View>
-                                <Image style={{ width: 60, height: 60 }} source={require('../assets/images/blurframe.png')} />
-                                <Image style={{ width: 50, height: 50, margin: 5, position: 'absolute' }} source={require(`../assets/images/blur.png`)} />
-                            </View>
-                            <Text style={{ color: "#0F4037", fontSize: 20 }}>Elif</Text>
-                        </View>
-                        <View style={{ justifyContent: "center", alignItems: "center", width: 50 }}>
-                            <View>
-                                <Image style={{ width: 60, height: 60 }} source={require('../assets/images/blurframe.png')} />
-                                <Image style={{ width: 50, height: 50, margin: 5, position: 'absolute' }} source={require(`../assets/images/blur.png`)} />
-                            </View>
-                            <Text style={{ color: "#0F4037", fontSize: 20 }}>Arzu</Text>
-                        </View>
+                        ))}
                     </View>
                     <Text style={{ textAlign: "center", width: 350, alignItems: "center", marginTop: 100, color: "#0F4037", fontSize: 15, fontFamily: "AverageSans" }}>
                         Merhaba!{"\n"}

@@ -3,20 +3,16 @@ import { ImageBackground, View, Image, Text, TextInput, TouchableOpacity, StyleS
 import { useSelector, useDispatch } from 'react-redux';
 import CircleXFill from '../assets/images/circle-x-fill-24.svg';
 import CircleCheckFill from '../assets/images/circle-check-fill-24.svg';
+import {getChatUsers, setChatUser} from "../features/auth/authSlice";
 const APP_NAME = "tyche"
 
 function Chatting({ navigation }) {
-    const { user } = useSelector((state) => state.auth);
+    const {user, updateUserInformation, chatUsers} = useSelector((state) => state.auth);
     const dispatch = useDispatch();
-    const [chatUsers, setChatUsers] = useState([
-        { "name": "Beyazıt", "lastMessage": "Oturuyorum sen napıyosunn", "photo": "1.png" },
-        { "name": "Murat", "lastMessage": "Selamm", "photo": "1.png" },
-        { "name": "Oğuz", "lastMessage": "Akrep seninn", "photo": "1.png" }
-    ]);
     const ChatUser = ({ item, navigation }) => (
         <TouchableOpacity onPress={() => {
             navigation.replace("DirectMessage"); 
-            dispatch(setChatUser(item.id));
+            dispatch(setChatUser(item.email));
         }} style={{ margin: 5, justifyContent: "center", alignItems: "center", width: 350, flexDirection: "row" }}>
             <View style={{ justifyContent: "center", alignItems: "flex-start", width: 100 }}>
                 <Image style={{ width: 60, height: 60, marginHorizontal: 20 }} source={require('../assets/images/frame.png')} />
@@ -29,9 +25,8 @@ function Chatting({ navigation }) {
         </TouchableOpacity>
     );
     useEffect(() => {
-        const users = dispatch(getChatUsers())
-        setChatUsers(users)
-    })
+        dispatch(getChatUsers(user))
+    }, [])
     if (!user || !user.verified) {
         return (
             <View
