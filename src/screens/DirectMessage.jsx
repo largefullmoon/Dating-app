@@ -31,7 +31,14 @@ const messages = [
 function DirectMessage({ navigation }) {
     const { user } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
-    const [chatList, setChatList] = useState([]);
+    const [chatList, setChatList] = useState(messages);
+    const [inputValue, setInputValue] = useState('');
+    const getCurrentTime = () => {
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, '0');  // Get hours (in 24-hour format) and pad with 0 if needed
+      const minutes = String(now.getMinutes()).padStart(2, '0');  // Get minutes and pad with 0 if needed
+      return `${hours}:${minutes}`;
+    };
     if (!user || !user.verified) {
         return (
             <View
@@ -51,14 +58,14 @@ function DirectMessage({ navigation }) {
                     </View>
                 </View>
                 <View style={{ flex: 1 }}>
-                    {messages.map((message, index) => (
+                    {chatList.map((message, index) => (
                         <ChatUser key={index} item={message} />
                     ))}
                 </View>
                 <View style={{
                     flexDirection: 'row',
                     alignItems: 'center',
-                    height: 30,
+                    height: 50,
                     paddingLeft: 10,
                     margin: 20,
                     paddingRight: 10,
@@ -67,24 +74,26 @@ function DirectMessage({ navigation }) {
                 }}>
                     <TextInput style={{
                         margin: 10,
-                        height: 30,
-                        marginVertical: 60,
+                        height: 50,
                         borderColor: 'gray',
                         width: 250,
-                        padding: 10,
                         paddingRight: 20,
-                        fontSize: 10,
+                        fontSize: 15,
                         fontFamily: "AverageSans",
                         backgroundColor: "#FFFFFF",
                         color: "#0F4037",
-                    }} textAlign="center" placeholder="Metin gir">
+                    }} textAlign="center" multiline={true} placeholder="Metin gir" value={inputValue} onChangeText={(text) => {
+                        setInputValue(text);
+                    }}>
                     </TextInput>
                     <TouchableOpacity style={{
                         width: 20, height: 20, marginRight: 10
                     }} onPress={async() => {
-                        setChatList([...chatList, {'message': inputValue, 'from': "me"}])
+                        let time = getCurrentTime()
+                        setChatList([...chatList, {'content': inputValue, 'from': "me", "time": time}])
+                        let chatData = {'from': user['email'], 'to': user['chatUser'], 'message': inputValue, 'time': time}
                         const responseUser = await dispatch(chatwithUser(inputValue))
-                        setChatList([...chatList, {'message': responseUser, 'from': "you"}])
+                        setInputValue("")
                     }}>
                         <Image style={{ width: 20, height: 20}} source={require('../assets/images/Icon.png')} />
                     </TouchableOpacity>

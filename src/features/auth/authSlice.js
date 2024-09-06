@@ -3,7 +3,11 @@ import authService from "./authService";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const initialState = {
-  user: AsyncStorage.getItem("user") ? AsyncStorage.getItem("user") : null,
+  user: AsyncStorage.getItem("user") ? AsyncStorage.getItem("user") : {
+    "name": "LargeFullmoon",
+    "email": "largefullmoon@gmail.com",
+    "photo": "1.png" 
+  },
   isSuccess: false,
   isError: false,
   isLoading: false,
@@ -36,7 +40,7 @@ export const selectPlan = createAsyncThunk("auth/selectPlan", async (params, thu
 
 export const setChatUser = createAsyncThunk("auth/setChatUser", async (chatUser, thunkAPI) => {
   try {
-    return { "key": "dmUser", "value": chatUser}
+    return { "key": "chatUser", "value": chatUser}
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response.data.message);
   }
@@ -110,9 +114,9 @@ export const chatwithAI = createAsyncThunk("auth/chatwithAI", async (data, thunk
   }
 })
 
-export const chatwithUser = createAsyncThunk("auth/chatwithUser", async (thunkAPI) => {
+export const chatwithUser = createAsyncThunk("auth/chatwithUser", async (chatData, thunkAPI) => {
   try {
-    return await authService.chatwithUser();
+    return await authService.chatwithUser(chatData);
   } catch (error) {
     const message =
       (error.response && error.response.data && response.data.message) ||

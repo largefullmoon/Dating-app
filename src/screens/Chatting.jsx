@@ -11,7 +11,7 @@ function Chatting({ navigation }) {
     const dispatch = useDispatch();
     const ChatUser = ({ item, navigation }) => (
         <TouchableOpacity onPress={() => {
-            navigation.replace("DirectMessage"); 
+            navigation.replace("DirectMessage");
             dispatch(setChatUser(item.email));
         }} style={{ margin: 5, justifyContent: "center", alignItems: "center", width: 350, flexDirection: "row" }}>
             <View style={{ justifyContent: "center", alignItems: "flex-start", width: 100 }}>

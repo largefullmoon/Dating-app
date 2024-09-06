@@ -108,8 +108,8 @@ const getChatUsers = async (userData) => {
   // });
 }
 
-const chatwithUser = async () => {
-  const response = await axios.post(`${BASE_URL}/chatwithUser`, userData);
+const chatwithUser = async (chatData) => {
+  const response = await axios.post(`${BASE_URL}/chatwithUser`, chatData);
   if (await response) {
     try {
       return response.data.message;
