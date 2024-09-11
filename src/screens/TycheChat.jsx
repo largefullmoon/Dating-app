@@ -3,7 +3,7 @@ import { ScrollView, ImageBackground, View, Image, Text, TextInput, TouchableOpa
 import { useSelector, useDispatch } from 'react-redux';
 import RadioGroup from 'react-native-radio-buttons-group';
 const APP_NAME = "tyche"
-import {chatwithAI, getAIChatHistory} from "../features/auth/authSlice";
+import { chatwithAI, getAIChatHistory } from "../features/auth/authSlice";
 function TycheChat({ navigation }) {
     const defaultQuestions = [
         "What is your favorite color?",
@@ -18,10 +18,10 @@ function TycheChat({ navigation }) {
     const [questionNumber, setQuestionNumber] = useState(0);
     const [chatList, setChatList] = useState([]);
     useEffect(() => {
-        setChatList([...chatList, {'message': defaultQuestions[questionNumber], 'isUser': false}])
+        setChatList([...chatList, { 'message': defaultQuestions[questionNumber], 'isUser': false }])
         // let history = dispatch(getAIChatHistory())
         // setChatList(history)
-    },[])
+    }, [])
     if (!user || !user.verified) {
         return (
             <View
@@ -35,10 +35,11 @@ function TycheChat({ navigation }) {
                 </View>
                 <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', marginBottom: 20 }}>
                     {chatList.map((item, index) => (
-                        <View key={index} style={{ alignItems: 'flex-start',borderRadius: 25, marginTop: 10, backgroundColor: "#FFFFFF", padding: 4, width: 240, marginLeft:item.isUser? "20%":""}}>
+                        <View key={index} style={{ alignItems: 'flex-start', borderRadius: 25, marginTop: 10, backgroundColor: "#FFFFFF", padding: 4, marginLeft: item.isUser ? "40%" : "0" }}>
                             <Text style={{ fontFamily: "AverageSans", fontSize: 11 }}>{item.message}</Text>
                         </View>
-                    ))}
+                    )
+                    )}
                 </ScrollView>
                 <View style={{
                     flexDirection: 'row',
@@ -66,18 +67,22 @@ function TycheChat({ navigation }) {
                     </TextInput>
                     <TouchableOpacity style={{
                         width: 20, height: 20, marginRight: 10, backgroundColor: "white"
-                    }} onPress={async() => {
-                        setChatList([...chatList, {'message': inputValue, 'isUser': true}])
-                        let number = questionNumber+1;
+                    }} onPress={async () => {
+                        console.log("user", user)
+                        console.log("inputValue", inputValue)
+                        setChatList([...chatList, {'message': inputValue, 'isUser': true }])
+                        let number = questionNumber + 1;
                         setQuestionNumber(number)
-                        // const postData = {'message':inputValue, "email": user.email}
-                        // const responseAI = await dispatch(chatwithAI(postData))
-                        if(chatList.length > 10){
+                        const postData = {'message':inputValue, "email": user.email, "question": defaultQuestions[questionNumber]}
+                        await dispatch(chatwithAI(postData))
+                        if (chatList.length > 10) {
                             navigation.replace("RegisterCompleted")
                         }
-                        setChatList([...chatList, {'message': defaultQuestions[questionNumber], 'isUser': false}])
+                        setTimeout(() => {
+                            setChatList([...chatList, {'message': defaultQuestions[questionNumber], 'isUser': false }])
+                        }, 1000)
                     }}>
-                        <Image style={{ width: 20, height: 20}} source={require('../assets/images/Icon.png')} />
+                        <Image style={{ width: 20, height: 20 }} source={require('../assets/images/Icon.png')} />
                     </TouchableOpacity>
                 </View>
             </View>

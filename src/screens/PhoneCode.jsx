@@ -1,8 +1,8 @@
-import React, {useState}from 'react';
+import React, {useEffect, useState}from 'react';
 import { ImageBackground, View, Image, Text, TextInput, TouchableOpacity } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 const APP_NAME = "tyche"
-import { register, updateUserInformation} from "../features/auth/authSlice";
+import { verifyPhoneNumber} from "../features/auth/authSlice";
 function PhoneCode({ navigation }) {
     const { user } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
@@ -11,6 +11,9 @@ function PhoneCode({ navigation }) {
     const [value3, setValue3] = useState("");
     const [value4, setValue4] = useState("");
     const [value5, setValue5] = useState("");
+    useEffect(() => {
+        navigation.replace("LoadingTycheChat");
+    }, [user.isVerified])
     if (!user || !user.verified) {
         return (
             <View style={{ marginBottom: 20, alignItems: 'center', flex: 1, justifyContent: 'center' }}>
@@ -89,8 +92,8 @@ function PhoneCode({ navigation }) {
                     justifyContent: "center"
                 }}
                     onPress={async() => {
-                        // await dispatch(verifyPhoneNumber(''+value1+value2+value3+value4+value5))
-                        navigation.replace("LoadingTycheChat");
+                        console.log(user)
+                        await dispatch(verifyPhoneNumber({"email": user.email, "code": ''+value1+value2+value3+value4+value5}))
                     }}>
                     <Text style={{ fontFamily: "AverageSans", fontSize: 25, color:"white"}}>Tekrar Gönder</Text>
                 </TouchableOpacity>

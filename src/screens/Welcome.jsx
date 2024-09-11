@@ -48,7 +48,12 @@ function Welcome({ navigation }) {
             flexDirection: 'row', justifyContent: "space-between"
           }}
             onPress={() => {
-              navigation.replace("PhotoVideo");
+              console.log("user", user)
+              if(user){
+                navigation.replace("TycheChat");
+              }else{
+                navigation.replace("Register");
+              }
             }}>
             <Image style={{ width: 30, height: 30 }} source={require('../assets/images/phone.png')} />
             <Text style={{

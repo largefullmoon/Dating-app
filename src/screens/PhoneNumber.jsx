@@ -44,9 +44,10 @@ function PhoneNumber({setCurrentStep, navigation}) {
                     onPress={async () => {
                         const fullPhoneNumber = phoneInput.current?.getNumberAfterPossiblyEliminatingZero();
                         setPhoneNumber(fullPhoneNumber.formattedNumber);
-
+                        let userData = userInformation
+                        userData["phoneNumber"] = fullPhoneNumber.formattedNumber
                         await dispatch(updateUserInformation({ "key": "phoneNumber", "value": fullPhoneNumber.formattedNumber }));
-                        await dispatch(register({ "userInformation": userInformation, "phoneNumber": fullPhoneNumber.formattedNumber }));
+                        await dispatch(register(userData));
                         setCurrentStep("phoneCode");
                     }}
                 >

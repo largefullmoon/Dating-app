@@ -46,14 +46,14 @@ function Register({ navigation }) {
 
     if (!user || !user.verified) {
         return (
-            <View style={{ backgroundColor: '#ECE6BF', alignItems: 'center', flex: 1 }}>
+            <View style={{backgroundColor:"#ECE6BF", alignItems: 'center', flex: 1 }}>
                 <View style={{ alignItems: 'center', flexDirection: 'row', height: 100, marginTop: 10 }}>
                     <Image style={{ width: 80, height: 80 }} source={require('../assets/images/logo.png')} />
                     <Text style={{ fontSize: 30, fontFamily: 'Quintessential', color: '#0F4037' }}>
                         {APP_NAME}
                     </Text>
                 </View>
-                <View style={{ marginBottom: 20, alignItems: 'center', flex: 1, justifyContent: 'center' }}>
+                <View style={{alignItems: 'center', flex: 1, justifyContent: 'center' }}>
                     <CurrentStepComponent></CurrentStepComponent>
                 </View>
             </View>

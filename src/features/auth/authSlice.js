@@ -1,18 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import authService from "./authService";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+// AsyncStorage.getItem("user") ? AsyncStorage.getItem("user") : 
 const initialState = {
-  user: AsyncStorage.getItem("user") ? AsyncStorage.getItem("user") : {
-    "name": "LargeFullmoon",
-    "email": "largefullmoon@gmail.com",
-    "photo": "1.png" 
-  },
+  user: null,
   isSuccess: false,
   isError: false,
   isLoading: false,
   userInformation: {},
-  selectedPlan: AsyncStorage.getItem("selectedPlan") ? AsyncStorage.getItem("selectedPlan") : 'standard',
   message: "",
   chatUsers: [
     { "name": "Beyazıt", "lastMessage": "Oturuyorum sen napıyosunn", "photo": "1.png" },
@@ -104,7 +99,7 @@ export const getChatUsers = createAsyncThunk("auth/getChatUsers", async (userDat
 
 export const chatwithAI = createAsyncThunk("auth/chatwithAI", async (data, thunkAPI) => {
   try {
-    return await authService.chatwithAI();
+    return await authService.chatwithAI(data);
   } catch (error) {
     const message =
       (error.response && error.response.data && response.data.message) ||
@@ -125,8 +120,21 @@ export const chatwithUser = createAsyncThunk("auth/chatwithUser", async (chatDat
     return thunkAPI.rejectWithValue(message);
   }
 })
+export const getUser = createAsyncThunk("auth/getUser", async (thunkAPI) => {
+  try {
+    let userString = AsyncStorage.getItem("@user")
+    const userObject = JSON.parse(userString);
+    const nestedUserInformation = JSON.parse(userObject._j);
+    let user = nestedUserInformation.userInformation
+    user['phoneNumber'] = nestedUserInformation.phoneNumber
+    return user;
+  } catch (error) {
+    return {}
+  }
+});
 
-export const getUser = createAsyncThunk("auth/user", async (thunkAPI) => {
+
+export const Info = createAsyncThunk("auth/user", async (thunkAPI) => {
   try {
     return await authService.getUser();
   } catch (error) {
@@ -153,16 +161,11 @@ export const forgotPassword = createAsyncThunk(
 
 export const verifyPhoneNumber = createAsyncThunk(
   "auth/verifyPhoneNumber",
-  async (payload, thunkAPI) => {
+  async (data, thunkAPI) => {
     try {
-      return await authService.verifyPhoneNumber(payload);
+      return await authService.verifyPhoneNumber(data);
     } catch (error) {
-      console.log(error.response.data.message);
-      const message =
-        (error.response && error.response.data && response.data.message) ||
-        error.message ||
-        error.toString();
-      return thunkAPI.rejectWithValue(message);
+      return "failed to verify code";
     }
   }
 );
@@ -247,12 +250,11 @@ export const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(updateUserInformation.fulfilled, (state, action) => {
-        state.user[action.payload.key] = action.payload.value
-        AsyncStorage.setItem('user', state.user)
+        state.userInformation[action.payload.key] = action.payload.value
       })
       .addCase(setChatUser.fulfilled, (state, action) => {
         state.user[action.payload.key] = action.payload.value
-        AsyncStorage.setItem('user', state.user)
+        AsyncStorage.setItem('@user', state.user)
       })
       .addCase(register.pending, (state) => {
         state.isLoading = true;
@@ -269,7 +271,6 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
-        state.user = null;
       })
       .addCase(agreeTerms.pending, (state) => {
         state.status = "pending"

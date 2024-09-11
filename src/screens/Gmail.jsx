@@ -8,7 +8,7 @@ function Gmail({setCurrentStep}) {
     const dispatch = useDispatch();
     const [value, setValue] = useState("");
     return (
-            <View style={{ marginBottom: 20, alignItems: 'center', flex: 1, justifyContent: 'center' }}>
+            <View style={{ marginBottom: 20, alignItems: 'center', backgroundColor:"#ECE6BF", flex: 1, justifyContent: 'center' }}>
                 <Text style={{ fontFamily: "AverageSans", fontSize: 40, color: "#0F4037"}}>E-posta Adresin</Text>
                 <TextInput style={{
                     margin: 10,

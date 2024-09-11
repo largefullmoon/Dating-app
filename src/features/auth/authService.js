@@ -5,16 +5,19 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 // //Register user
 // const socket = io(BASE_URL);
 const register = async (userData) => {
-  userData.userInformation['phoneNumber'] = userData.phoneNumner
-  const response = await axios.post(`${BASE_URL}/registerUser`, userData.userInformation);
-  if (await response.data) {
+  const response = await axios.post(`${BASE_URL}/registerUser`, userData, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  if (await response.data.data) {
     try {
-      await AsyncStorage.setItem("@user", JSON.stringify(response.data));
+      await AsyncStorage.setItem("@user", JSON.stringify(userData));
     } catch (e) {
       throw new Error(e);
     }
   }
-  return response.data;
+  return userData;
 };
 
 //Login user
@@ -66,12 +69,12 @@ const getAIChatHistory = async () => {
   }
 };
 
-const chatwithAI = async (postData) => {
+const chatwithAI = async (data) => {
   try {
-    const response = await axios.post(`${BASE_URL}/chatwithAI`, postData);
+    const response = await axios.post(`${BASE_URL}/chatwithAI`, data);
     if (await response) {
       try {
-        return response.data.message;Moo
+        return response.data.message; Moo
       } catch (error) {
         return error;
       }
@@ -87,36 +90,16 @@ const getChatUsers = async (userData) => {
       'Content-Type': 'application/json',
     },
   });
-  return response.data.data;
-  // return new Promise((resolve, reject) => {
-  //   try {
-  //     // Emit the message to the server
-  //     socket.emit('message', message);
-
-  //     // Listen for the response from the server
-  //     socket.on('response', (data) => {
-  //       resolve(data);  // Resolve the promise with the received data
-  //     });
-
-  //     // Optionally, handle other socket events like errors
-  //     socket.on('error', (error) => {
-  //       reject(error);  // Reject the promise if there is an error
-  //     });
-  //   } catch (e) {
-  //     reject(e);  // Reject the promise in case of other errors
-  //   }
-  // });
+  console.log(response.data.data)
 }
 
 const chatwithUser = async (chatData) => {
-  const response = await axios.post(`${BASE_URL}/chatwithUser`, chatData);
-  if (await response) {
-    try {
-      return response.data.message;
-    } catch (error) {
-      return error;
-    }
+  try {
+    socket.emit('chatwithUser', chatData);
+  } catch (e) {
+    reject(e);
   }
+  return
 }
 
 const forgotPassword = async (userData) => {
@@ -131,19 +114,13 @@ const forgotPassword = async (userData) => {
 };
 
 //Register user
-const verifyEmail = async (userData) => {
-  const response = await axios.post(`${BASE_URL}/verifyEmail`, userData);
-  if (await response.data) {
-    try {
-      await AsyncStorage.setItem("@user", JSON.stringify(response.data));
-    } catch (e) {
-      // saving error
-
-      throw new Error(e);
-    }
-  }
-
-  return response.data;
+const verifyPhoneNumber = async (userData) => {
+  const response = await axios.post(`${BASE_URL}/verifyPhoneNumber`, userData, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  return response.data.message;
 };
 
 //Reset password
@@ -161,14 +138,15 @@ const resetPassword = async (userData) => {
 
   return response.data;
 };
-const uploadPhoto = async (file) => {
+const uploadPhoto = async (params) => {
   const formData = new FormData();
+  const file = params['file']
   formData.append('file', {
     uri: file.uri, // The local path of the file
     name: file.name || 'photo.jpg', // Optional file name
     type: file.type || 'image/jpeg', // Optional MIME type
   });
-
+  formData.append("email", params['email'])
   try {
     const response = await axios.post(`${BASE_URL}/uploadPhoto`, formData, {
       headers: {
@@ -208,12 +186,12 @@ const authService = {
   getUser,
   forgotPassword,
   resetPassword,
-  verifyEmail,
   getAIChatHistory,
   getChatUsers,
   chatwithAI,
   chatwithUser,
   agreeTerms,
+  verifyPhoneNumber,
   uploadPhoto,
   getPhotoList,
   selectPlan

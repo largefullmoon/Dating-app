@@ -11,7 +11,7 @@ function PhotoVideo({ navigation }) {
     const { user, photoList } = useSelector((state) => state.auth);
     useEffect(() => {
         async function fetchData() {
-            await dispatch(getPhotoList(user))
+            await dispatch(getPhotoList({"email": user.email}))
         }
         fetchData()
     }, [])
@@ -32,7 +32,7 @@ function PhotoVideo({ navigation }) {
         }
     };
     const uploadFile = async (file) => {
-        dispatch(uploadPhoto(file))
+        dispatch(uploadPhoto({"email": user.email, "file": file}))
     };
     if (!user || !user.verified) {
         return (

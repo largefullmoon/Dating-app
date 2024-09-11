@@ -92,7 +92,7 @@ function DirectMessage({ navigation }) {
                         let time = getCurrentTime()
                         setChatList([...chatList, {'content': inputValue, 'from': "me", "time": time}])
                         let chatData = {'from': user['email'], 'to': user['chatUser'], 'message': inputValue, 'time': time}
-                        const responseUser = await dispatch(chatwithUser(inputValue))
+                        const responseUser = await dispatch(chatwithUser(chatData))
                         setInputValue("")
                     }}>
                         <Image style={{ width: 20, height: 20}} source={require('../assets/images/Icon.png')} />
