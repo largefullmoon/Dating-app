@@ -5,7 +5,7 @@ import PhoneInput from "react-native-phone-number-input";
 import { register, updateUserInformation } from "../features/auth/authSlice";
 
 function PhoneNumber({setCurrentStep, navigation}) {
-    const { user, userInformation } = useSelector((state) => state.auth);
+    const { user, userInformation, isSuccess} = useSelector((state) => state.auth);
     const dispatch = useDispatch();
     const phoneInput = useRef(null);
     const [value, setValue] = useState("");
@@ -48,7 +48,11 @@ function PhoneNumber({setCurrentStep, navigation}) {
                         userData["phoneNumber"] = fullPhoneNumber.formattedNumber
                         await dispatch(updateUserInformation({ "key": "phoneNumber", "value": fullPhoneNumber.formattedNumber }));
                         await dispatch(register(userData));
-                        setCurrentStep("phoneCode");
+                        if(isSuccess == true){
+                            setCurrentStep("phoneCode");
+                        }else{
+                            alert("Please try again.")
+                        }
                     }}
                 >
                     <Text style={{ fontFamily: "AverageSans", fontSize: 25, color:"white" }}>

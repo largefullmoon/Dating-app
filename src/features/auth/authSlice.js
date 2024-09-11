@@ -375,24 +375,20 @@ export const authSlice = createSlice({
         message = action.payload;
         state.isError = false;
       })
-      .addCase(verifyPhoneNumber.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.user = action.payload;
-        // message = action.payload.message
-        state.isError = false;
-      })
       .addCase(verifyPhoneNumber.pending, (state, action) => {
-        state.isLoading = true;
         state.isSuccess = false;
-        message = null;
-        state.isError = false;
+      })
+      .addCase(verifyPhoneNumber.fulfilled, (state, action) => {
+        if(action.payload == "success"){
+          state.isSuccess = true;
+          state.user['isVerified'] = true;
+          AsyncStorage.setItem("@user", JSON.stringify(state.user));
+        }else{
+          state.isSuccess = false;
+        }
       })
       .addCase(verifyPhoneNumber.rejected, (state, action) => {
-        state.isLoading = false;
         state.isSuccess = false;
-        message = action.payload;
-        state.isError = true;
       })
       .addCase(resetPassword.fulfilled, (state, action) => {
         state.isLoading = false;

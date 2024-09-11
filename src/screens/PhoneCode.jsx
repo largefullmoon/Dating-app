@@ -11,9 +11,6 @@ function PhoneCode({ navigation }) {
     const [value3, setValue3] = useState("");
     const [value4, setValue4] = useState("");
     const [value5, setValue5] = useState("");
-    useEffect(() => {
-        navigation.replace("LoadingTycheChat");
-    }, [user.isVerified])
     if (!user || !user.verified) {
         return (
             <View style={{ marginBottom: 20, alignItems: 'center', flex: 1, justifyContent: 'center' }}>
@@ -94,6 +91,11 @@ function PhoneCode({ navigation }) {
                     onPress={async() => {
                         console.log(user)
                         await dispatch(verifyPhoneNumber({"email": user.email, "code": ''+value1+value2+value3+value4+value5}))
+                        if(isSuccess == true){
+                            navigation.replace("LoadingTycheChat");
+                        }else{
+                            alert("Please try again.")
+                        }
                     }}>
                     <Text style={{ fontFamily: "AverageSans", fontSize: 25, color:"white"}}>Tekrar Gönder</Text>
                 </TouchableOpacity>
