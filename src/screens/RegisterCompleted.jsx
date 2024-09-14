@@ -9,7 +9,7 @@ function RegisterCompleted({ navigation }) {
     useEffect(() => {
         setTimeout(() => {
             navigation.replace("TermsOfUse")
-        }, 3000);
+        }, 10000);
     }, [])
     if (!user || !user.verified) {
         return (

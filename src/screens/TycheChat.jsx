@@ -70,16 +70,18 @@ function TycheChat({ navigation }) {
                     }} onPress={async () => {
                         console.log("user", user)
                         console.log("inputValue", inputValue)
+                        let list = chatList
                         setChatList([...chatList, {'message': inputValue, 'isUser': true }])
+                        list.push({'message': inputValue, 'isUser': true })
                         let number = questionNumber + 1;
                         setQuestionNumber(number)
                         const postData = {'message':inputValue, "email": user.email, "question": defaultQuestions[questionNumber]}
                         await dispatch(chatwithAI(postData))
-                        if (chatList.length > 10) {
+                        if (list.length >= 10) {
                             navigation.replace("RegisterCompleted")
                         }
                         setTimeout(() => {
-                            setChatList([...chatList, {'message': defaultQuestions[questionNumber], 'isUser': false }])
+                            setChatList([...list, {'message': defaultQuestions[questionNumber], 'isUser': false }])
                         }, 1000)
                     }}>
                         <Image style={{ width: 20, height: 20 }} source={require('../assets/images/Icon.png')} />

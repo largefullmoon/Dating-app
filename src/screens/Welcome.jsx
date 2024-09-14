@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ImageBackground, View, Image, Text, TouchableOpacity } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 const APP_NAME = "tyche"
 import { styles } from '../constants';
+import { getUser } from "../features/auth/authSlice";
 
 function Welcome({ navigation }) {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getUser())
+  },[])
   if (!user || !user.verified) {
     return (
       <ImageBackground
@@ -50,7 +54,10 @@ function Welcome({ navigation }) {
             onPress={() => {
               console.log("user", user)
               if(user){
-                navigation.replace("TycheChat");
+                if(user.isVerified == true)
+                  navigation.replace("PlanList");
+                else
+                  navigation.replace("PhoneCode");
               }else{
                 navigation.replace("Register");
               }

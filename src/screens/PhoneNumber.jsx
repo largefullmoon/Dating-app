@@ -1,16 +1,26 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import PhoneInput from "react-native-phone-number-input";
-import { register, updateUserInformation } from "../features/auth/authSlice";
+import { register, reset, updateUserInformation, resetStatusVariable} from "../features/auth/authSlice";
 
 function PhoneNumber({setCurrentStep, navigation}) {
-    const { user, userInformation, isSuccess} = useSelector((state) => state.auth);
+    const { user, userInformation, isSuccess, isError} = useSelector((state) => state.auth);
     const dispatch = useDispatch();
     const phoneInput = useRef(null);
     const [value, setValue] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
-
+    useEffect(() => {
+        dispatch(resetStatusVariable())
+    })
+    useEffect(() => {
+        if(isSuccess == true){
+            setCurrentStep("phoneCode");
+        }
+        if(isError == true){
+            alert("Please try again")
+        }
+    }, [isSuccess, isError])
     if (!user || !user.verified) {
         return (
             <View style={{ marginBottom: 20, alignItems: 'center', flex: 1, justifyContent: 'center' }}>
@@ -44,15 +54,12 @@ function PhoneNumber({setCurrentStep, navigation}) {
                     onPress={async () => {
                         const fullPhoneNumber = phoneInput.current?.getNumberAfterPossiblyEliminatingZero();
                         setPhoneNumber(fullPhoneNumber.formattedNumber);
-                        let userData = userInformation
-                        userData["phoneNumber"] = fullPhoneNumber.formattedNumber
                         await dispatch(updateUserInformation({ "key": "phoneNumber", "value": fullPhoneNumber.formattedNumber }));
+                        const userData = {
+                            ...userInformation,
+                            'phoneNumber': fullPhoneNumber.formattedNumber
+                        };
                         await dispatch(register(userData));
-                        if(isSuccess == true){
-                            setCurrentStep("phoneCode");
-                        }else{
-                            alert("Please try again.")
-                        }
                     }}
                 >
                     <Text style={{ fontFamily: "AverageSans", fontSize: 25, color:"white" }}>

@@ -10,13 +10,9 @@ const register = async (userData) => {
       'Content-Type': 'application/json',
     },
   });
-  if (await response.data.data) {
-    try {
-      await AsyncStorage.setItem("@user", JSON.stringify(userData));
-    } catch (e) {
-      throw new Error(e);
-    }
-  }
+  await AsyncStorage.setItem("user", JSON.stringify(userData));
+  const user = await AsyncStorage.getItem('user')
+  console.log("AsyncStorage.getItem('user')", user)
   return userData;
 };
 
@@ -26,7 +22,7 @@ const login = async (userData) => {
   if (await response.data) {
     try {
       const jsonValue = JSON.stringify(response.data);
-      await AsyncStorage.setItem("@user", jsonValue);
+      await AsyncStorage.setItem("user", jsonValue);
     } catch (e) {
       // saving error
       return e;
@@ -120,7 +116,13 @@ const verifyPhoneNumber = async (userData) => {
       'Content-Type': 'application/json',
     },
   });
-  return response.data.message;
+  if (await response) {
+    try {
+      return response.data.message;
+    } catch (error) {
+      return error;
+    }
+  }
 };
 
 //Reset password
@@ -160,7 +162,11 @@ const uploadPhoto = async (params) => {
   }
 };
 const agreeTerms = async (userData) => {
-  const response = await axios.post(`${BASE_URL}/agreeTerms`, userData);
+  const response = await axios.post(`${BASE_URL}/agreeTerms`, userData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
   return response.data;
 };
 

@@ -70,7 +70,11 @@ function TermsOfUse({ navigation }) {
                 }}>
                     <Text style={{ fontFamily: "AverageSans", fontSize: 25, color: "white"}} onPress={async () => {
                         await dispatch(agreeTerms(user))
-                        navigation.replace("PhotoVideo");
+                        if(isSuccess == true){
+                            navigation.replace("PhotoVideo");
+                        }else{
+                            alert("Pleaes try again")
+                        }
                     }}>ONAYLA</Text>
                 </TouchableOpacity>
                 <View style={{ alignItems: 'center', flexDirection: 'row', height: 70, marginTop: 10, justifyContent: "space-around", width: 350 }}>

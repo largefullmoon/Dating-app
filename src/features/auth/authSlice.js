@@ -35,7 +35,7 @@ export const selectPlan = createAsyncThunk("auth/selectPlan", async (params, thu
 
 export const setChatUser = createAsyncThunk("auth/setChatUser", async (chatUser, thunkAPI) => {
   try {
-    return { "key": "chatUser", "value": chatUser}
+    return { "key": "chatUser", "value": chatUser }
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response.data.message);
   }
@@ -120,19 +120,6 @@ export const chatwithUser = createAsyncThunk("auth/chatwithUser", async (chatDat
     return thunkAPI.rejectWithValue(message);
   }
 })
-export const getUser = createAsyncThunk("auth/getUser", async (thunkAPI) => {
-  try {
-    let userString = AsyncStorage.getItem("@user")
-    const userObject = JSON.parse(userString);
-    const nestedUserInformation = JSON.parse(userObject._j);
-    let user = nestedUserInformation.userInformation
-    user['phoneNumber'] = nestedUserInformation.phoneNumber
-    return user;
-  } catch (error) {
-    return {}
-  }
-});
-
 
 export const Info = createAsyncThunk("auth/user", async (thunkAPI) => {
   try {
@@ -233,6 +220,30 @@ export const getPhotoList = createAsyncThunk(
   }
 );
 
+export const getUser = createAsyncThunk(
+  "auth/getUser",
+  async (thunkAPI) => {
+    const user = null
+    try {
+      const userString = await AsyncStorage.getItem("user");
+      console.log("userString", userString)
+      if (userString.indexOf("email") > -1) {
+        const user = JSON.parse(userString);
+        if (user?.email) {
+          user = user;
+        } else {
+          user = null;
+        }
+      } else {
+        user = null
+      }
+    } catch {
+      user = null;
+    }
+    return user
+  }
+);
+
 export const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -246,15 +257,24 @@ export const authSlice = createSlice({
       state.userInformation = null;
       state.chatUsers = [];
     },
+    resetStatusVariable: (state) => {
+      state.status = null
+      state.message = null
+      state.isSuccess = false
+      state.isError = false;
+    }
   },
   extraReducers: (builder) => {
     builder
       .addCase(updateUserInformation.fulfilled, (state, action) => {
         state.userInformation[action.payload.key] = action.payload.value
       })
-      .addCase(setChatUser.fulfilled, (state, action) => {
+      .addCase(setChatUser.fulfilled, async (state, action) => {
         state.user[action.payload.key] = action.payload.value
-        AsyncStorage.setItem('@user', state.user)
+        await AsyncStorage.setItem('user', state.user)
+      })
+      .addCase(getUser.fulfilled, (state, action) => {
+        state.user = action.payload;
       })
       .addCase(register.pending, (state) => {
         state.isLoading = true;
@@ -275,14 +295,17 @@ export const authSlice = createSlice({
       .addCase(agreeTerms.pending, (state) => {
         state.status = "pending"
         state.message = "saving..."
+        state.isSuccess = false;
       })
       .addCase(agreeTerms.fulfilled, (state, action) => {
         state.status = "success"
         state.message = "saved"
+        state.isSuccess = true;
       })
       .addCase(agreeTerms.rejected, (state, action) => {
         state.status = "error"
         state.message = "rejected"
+        state.isSuccess = false;
       })
       .addCase(uploadPhoto.pending, (state) => {
         state.status = "pending"
@@ -343,21 +366,6 @@ export const authSlice = createSlice({
         state.user = null;
       })
       .addCase(logout.fulfilled, (state, action) => (state.user = null))
-      .addCase(getUser.fulfilled, (state) => {
-        state.user = action.payload;
-        state.isSuccess = true;
-        state.isLoading = false;
-      })
-      .addCase(getUser.pending, (state) => {
-        state.isLoading = true;
-        state.message = null;
-        state.isSuccess = false;
-        state.isError = false;
-      })
-      .addCase(getUser.rejected, (state, action) => {
-        state.message = action.payload;
-        state.isError = true;
-      })
       .addCase(forgotPassword.rejected, (state, action) => {
         state.message = action.payload;
         state.isError = true;
@@ -377,18 +385,18 @@ export const authSlice = createSlice({
       })
       .addCase(verifyPhoneNumber.pending, (state, action) => {
         state.isSuccess = false;
+        state.isError = false;
       })
-      .addCase(verifyPhoneNumber.fulfilled, (state, action) => {
-        if(action.payload == "success"){
-          state.isSuccess = true;
-          state.user['isVerified'] = true;
-          AsyncStorage.setItem("@user", JSON.stringify(state.user));
-        }else{
-          state.isSuccess = false;
-        }
+      .addCase(verifyPhoneNumber.fulfilled, async (state, action) => {
+        alert("ok")
+        state.user['isVerified'] = true;
+        await AsyncStorage.setItem("user", JSON.stringify(state.user));
+        state.isSuccess = true;
+        state.isError = false;
       })
       .addCase(verifyPhoneNumber.rejected, (state, action) => {
         state.isSuccess = false;
+        state.isError = true;
       })
       .addCase(resetPassword.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -411,5 +419,5 @@ export const authSlice = createSlice({
       });
   },
 });
-export const { reset } = authSlice.actions;
+export const { reset, resetStatusVariable} = authSlice.actions;
 export default authSlice.reducer;

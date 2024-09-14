@@ -2,15 +2,27 @@ import React, {useEffect, useState}from 'react';
 import { ImageBackground, View, Image, Text, TextInput, TouchableOpacity } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 const APP_NAME = "tyche"
-import { verifyPhoneNumber} from "../features/auth/authSlice";
+import { verifyPhoneNumber, getUser, resetStatusVariable} from "../features/auth/authSlice";
 function PhoneCode({ navigation }) {
-    const { user } = useSelector((state) => state.auth);
+    const { user, isSuccess, isError} = useSelector((state) => state.auth);
     const dispatch = useDispatch();
     const [value1, setValue1] = useState("");
     const [value2, setValue2] = useState("");
     const [value3, setValue3] = useState("");
     const [value4, setValue4] = useState("");
     const [value5, setValue5] = useState("");
+    useEffect(() => {
+        dispatch(resetStatusVariable())
+        dispatch(getUser())
+    }, [])
+    useEffect(() => {
+        if(isSuccess == true){
+            navigation.replace("LoadingTycheChat");
+        }
+        if(isError == true){
+            alert("Please try again.")
+        }
+    }, [isSuccess, isError])
     if (!user || !user.verified) {
         return (
             <View style={{ marginBottom: 20, alignItems: 'center', flex: 1, justifyContent: 'center' }}>
@@ -91,11 +103,6 @@ function PhoneCode({ navigation }) {
                     onPress={async() => {
                         console.log(user)
                         await dispatch(verifyPhoneNumber({"email": user.email, "code": ''+value1+value2+value3+value4+value5}))
-                        if(isSuccess == true){
-                            navigation.replace("LoadingTycheChat");
-                        }else{
-                            alert("Please try again.")
-                        }
                     }}>
                     <Text style={{ fontFamily: "AverageSans", fontSize: 25, color:"white"}}>Tekrar Gönder</Text>
                 </TouchableOpacity>
