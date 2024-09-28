@@ -220,29 +220,18 @@ export const getPhotoList = createAsyncThunk(
   }
 );
 
-export const getUser = createAsyncThunk(
-  "auth/getUser",
-  async (thunkAPI) => {
-    const user = null
-    try {
-      const userString = await AsyncStorage.getItem("user");
-      console.log("userString", userString)
-      if (userString.indexOf("email") > -1) {
-        const user = JSON.parse(userString);
-        if (user?.email) {
-          user = user;
-        } else {
-          user = null;
-        }
-      } else {
-        user = null
-      }
-    } catch {
-      user = null;
+export const getUser = createAsyncThunk('auth/getUser', async (_, thunkAPI) => {
+  try {
+    const userString = await AsyncStorage.getItem('user');
+    if (userString) {
+      const user = JSON.parse(userString);
+      return user?.email ? user : null;
     }
-    return user
+    return null;
+  } catch (error) {
+    return thunkAPI.rejectWithValue('Failed to load user');
   }
-);
+});
 
 export const authSlice = createSlice({
   name: "auth",
@@ -275,6 +264,7 @@ export const authSlice = createSlice({
       })
       .addCase(getUser.fulfilled, (state, action) => {
         state.user = action.payload;
+        console.log(state.user, "state.user")
       })
       .addCase(register.pending, (state) => {
         state.isLoading = true;
@@ -419,5 +409,5 @@ export const authSlice = createSlice({
       });
   },
 });
-export const { reset, resetStatusVariable} = authSlice.actions;
+export const { reset, resetStatusVariable } = authSlice.actions;
 export default authSlice.reducer;

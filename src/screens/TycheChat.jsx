@@ -1,8 +1,8 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { ScrollView, ImageBackground, View, Image, Text, TextInput, TouchableOpacity, ToastAndroid } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import axios from "axios";
 const BASE_URL = "https://pumped-stirred-emu.ngrok-free.app"
+import axios from "axios";
 const APP_NAME = "tyche"
 function TycheChat({ navigation }) {
     const defaultQuestions = [
@@ -33,7 +33,7 @@ function TycheChat({ navigation }) {
     if (!user || !user.verified) {
         return (
             <View
-                style={{ backgroundColor: '#ECE6BF', alignItems: 'center', flex: 1 }}
+                style={{ backgroundColor: '#ECE6BF', alignItems: 'center', flex: 1, width: "100%" }}
             >
                 <View style={{ alignItems: 'center', flexDirection: 'row', height: 100, marginTop: 10 }}>
                     <Image style={{ width: 80, height: 80 }} source={require('../assets/images/logo.png')} />
@@ -41,13 +41,47 @@ function TycheChat({ navigation }) {
                         {APP_NAME}
                     </Text>
                 </View>
-                <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', marginBottom: 20 }}>
+                <ScrollView contentContainerStyle={{ alignItems: "flex-start", justifyContent: 'center', marginBottom: 20, width: "100%" }}>
                     {chatList.map((item, index) => (
-                        <View key={index} style={{ alignItems: 'flex-start', borderRadius: 25, marginTop: 10, backgroundColor: "#FFFFFF", padding: 4, marginLeft: item.isUser ? "40%" : "0" }}>
-                            <Text style={{ fontFamily: "AverageSans", fontSize: 11 }}>{item.message}</Text>
+                        <View
+                            key={index}
+                            style={{
+                                marginBottom: 5
+                            }}
+                        >
+                            <View
+                                style={{
+                                    justifyContent: item.isUser ? "flex-end" : "flex-start",
+                                    flexDirection: "row",
+                                    width: 350,
+                                    alignItems: "center",
+
+                                }}
+                            >
+                                {item.isUser != true && (
+                                    <Image style={{ width: 20, height: 20 }} source={require('../assets/images/logo.png')} />
+                                )}
+                                <Text
+                                    style={{
+                                        fontFamily: "AverageSans",
+                                        borderRadius: 25,
+                                        padding: 5,
+                                        backgroundColor: "#FFFFFF",
+                                        color: item.isUser ? "#0F4037" : "black",
+                                        fontSize: 14,
+                                        justifyContent: "flex-end",
+                                        flexDirection: "row",
+                                        width: 200,
+                                    }}
+                                >
+                                    {item.message}
+                                </Text>
+                                {item.isUser && (
+                                    <Image style={{ width: 20, height: 20 }} source={require('../assets/images/user.png')} />
+                                )}
+                            </View>
                         </View>
-                    )
-                    )}
+                    ))}
                 </ScrollView>
                 <View style={{
                     flexDirection: 'row',
@@ -78,20 +112,20 @@ function TycheChat({ navigation }) {
                     }} onPress={async () => {
                         const postData = { 'message': inputValue, "email": user.email, "question": defaultQuestions[questionNumber] }
                         const result = await answerQuestion(postData);
-                        if(result){
+                        if (result) {
                             let list = chatList
                             if (result) {
                                 setChatList([...chatList, { 'message': inputValue, 'isUser': true }])
                                 list.push({ 'message': inputValue, 'isUser': true })
                                 let number = questionNumber + 1;
                                 setQuestionNumber(number)
+                                setTimeout(() => {
+                                    setChatList([...list, { 'message': defaultQuestions[number], 'isUser': false }])
+                                }, 1000)
                             }
                             if (list.length >= 10) {
                                 navigation.replace("RegisterCompleted")
                             }
-                            setTimeout(() => {
-                                setChatList([...list, { 'message': defaultQuestions[questionNumber], 'isUser': false }])
-                            }, 1000)
                         }
                     }}>
                         <Image style={{ width: 20, height: 20 }} source={require('../assets/images/Icon.png')} />
@@ -101,5 +135,4 @@ function TycheChat({ navigation }) {
         );
     }
 }
-
 export default TycheChat;
