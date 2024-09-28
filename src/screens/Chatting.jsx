@@ -7,7 +7,8 @@ import axios from "axios";
 const BASE_URL = "https://pumped-stirred-emu.ngrok-free.app";
 
 function Chatting({ navigation }) {
-    const { user, updateUserInformation, chatUsers } = useSelector((state) => state.auth);
+    const { user } = useSelector((state) => state.auth);
+    const [chatUsers, setChatUsers] = useState([]);
     const dispatch = useDispatch();
     const ChatUser = ({ item, navigation }) => (
         <TouchableOpacity onPress={() => {
@@ -24,8 +25,17 @@ function Chatting({ navigation }) {
             </View>
         </TouchableOpacity>
     );
+    const getChatUsers = async (userData) => {
+        const response = await axios.post(`${BASE_URL}/getChatUsers`, userData, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        console.log(response.data.data)
+        setChatUsers(response.data.data)
+    }
     useEffect(() => {
-        dispatch(getChatUsers(user))
+        getChatUsers(user)
     }, [])
     if (!user || !user.verified) {
         return (
@@ -47,7 +57,7 @@ function Chatting({ navigation }) {
                     ))}
                 </View>
                 <View style={{ alignItems: 'center', flexDirection: 'row', height: 70, marginTop: 10, justifyContent: "space-around", width: 350 }}>
-                    <TouchableOpacity onPress={() => { navigation.replace("User"); }} >
+                    <TouchableOpacity onPress={() => { navigation.replace("PhotoVideo"); }} >
                         <Image style={{ width: 30, height: 30 }} source={require('../assets/images/Toolbar/user.png')} />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => { navigation.replace("Welcome"); }}>

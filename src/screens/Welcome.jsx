@@ -10,7 +10,7 @@ function Welcome({ navigation }) {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getUser())
-  },[])
+  }, [])
   if (!user || !user.verified) {
     return (
       <ImageBackground
@@ -43,7 +43,7 @@ function Welcome({ navigation }) {
             }}>Apple ile Giriş Yap</Text>
           </TouchableOpacity>
           <TouchableOpacity style={{
-            borderRadius: 25, 
+            borderRadius: 25,
             width: 300,
             height: 70,
             padding: 10,
@@ -53,12 +53,9 @@ function Welcome({ navigation }) {
           }}
             onPress={() => {
               console.log("user", user)
-              if(user){
-                if(user.isVerified == true)
-                  navigation.replace("PlanList");
-                else
-                  navigation.replace("PhoneCode");
-              }else{
+              if (user) {
+                navigation.replace("PlanList");
+              } else {
                 navigation.replace("Register");
               }
             }}>
@@ -67,7 +64,7 @@ function Welcome({ navigation }) {
               fontSize: 18,
               width: 250,
               fontFamily: 'AverageSans',
-              color: '#FFFFFF',textAlign: "center"
+              color: '#FFFFFF', textAlign: "center"
             }}>Telefon Numarası ile{"\n"}Kayıt Ol</Text>
           </TouchableOpacity>
         </View>

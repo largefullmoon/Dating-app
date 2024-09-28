@@ -45,7 +45,7 @@ function Tyche({ navigation }) {
                     </TextInput>
                 </View>
                 <View style={{ alignItems: 'center', flexDirection: 'row', height: 70, marginTop: 30, justifyContent: "space-around", width: 350 }}>
-                    <TouchableOpacity onPress={() => { navigation.replace("User"); }} >
+                    <TouchableOpacity onPress={() => { navigation.replace("PhotoVideo"); }} >
                         <Image style={{ width: 30, height: 30 }} source={require('../assets/images/Toolbar/user.png')} />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => { navigation.replace("Welcome"); }}>
