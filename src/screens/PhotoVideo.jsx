@@ -79,42 +79,42 @@ function PhotoVideo({ navigation }) {
                 <Text style={{ textAlign: "left", width: 350, alignItems: "flex-start", marginTop: 10, color: "#0F4037", fontSize: 15, fontFamily: "AverageSans" }}>Fotoğraf ve videolar</Text>
                 <View style={{ alignItems: "center", justifyContent: "flex-start" }}>
                     <Image style={{ width: 350 }} source={require('../assets/images/videoset.png')} />
-                    <Image source={{ uri: `${BASE_URL}/getPhoto/${photoList[0]}` }} style={{ width: 100, height: 100, position: "absolute", top: "7.5%", left: "3%" }} />
+                    <Image source={{ uri: `${BASE_URL}/getPhoto/0.png` }} style={{ width: 100, height: 100, position: "absolute", top: "7.5%", left: "3%" }} />
                     <TouchableOpacity style={{ width: 24, position: "absolute", top: "20%", left: "13%" }} onPress={() => {
                         setPhotoNumber(0)
                         selectFile();
                     }} >
                         <Image source={require('../assets/images/add_circle.png')} />
                     </TouchableOpacity>
-                    <Image source={{ uri: `${BASE_URL}/getPhoto/${photoList[1]}` }} style={{ width: 100, height: 100, position: "absolute", top: "7.5%", left: "35%" }} />
+                    <Image source={{ uri: `${BASE_URL}/getPhoto/1.png` }} style={{ width: 100, height: 100, position: "absolute", top: "7.5%", left: "35%" }} />
                     <TouchableOpacity style={{ width: 24, position: "absolute", top: "20%", left: "45%" }} onPress={() => {
                         setPhotoNumber(1)
                         selectFile();
                     }} >
                         <Image source={require('../assets/images/add_circle.png')} />
                     </TouchableOpacity>
-                    <Image source={{ uri: `${BASE_URL}/getPhoto/${photoList[2]}` }} style={{ width: 100, height: 100, position: "absolute", top: "7.5%", left: "67%" }} />
+                    <Image source={{ uri: `${BASE_URL}/getPhoto/2.png` }} style={{ width: 100, height: 100, position: "absolute", top: "7.5%", left: "67%" }} />
                     <TouchableOpacity style={{ width: 24, position: "absolute", top: "20%", left: "77%" }} onPress={() => {
                         setPhotoNumber(2)
                         selectFile();
                     }} >
                         <Image source={require('../assets/images/add_circle.png')} />
                     </TouchableOpacity>
-                    <Image source={{ uri: `${BASE_URL}/getPhoto/${photoList[3]}` }} style={{ width: 100, height: 100, position: "absolute", top: "49%", left: "3%" }} />
+                    <Image source={{ uri: `${BASE_URL}/getPhoto/3.png` }} style={{ width: 100, height: 100, position: "absolute", top: "49%", left: "3%" }} />
                     <TouchableOpacity style={{ width: 24, position: "absolute", top: "63%", left: "13%" }} onPress={() => {
                         setPhotoNumber(3)
                         selectFile();
                     }} >
                         <Image source={require('../assets/images/add_circle.png')} />
                     </TouchableOpacity>
-                    <Image source={{ uri: `${BASE_URL}/getPhoto/${photoList[4]}` }} style={{ width: 100, height: 100, position: "absolute", top: "49%", left: "35%" }} />
+                    <Image source={{ uri: `${BASE_URL}/getPhoto/4.png` }} style={{ width: 100, height: 100, position: "absolute", top: "49%", left: "35%" }} />
                     <TouchableOpacity style={{ width: 24, position: "absolute", top: "63%", left: "45%" }} onPress={() => {
                         setPhotoNumber(4)
                         selectFile();
                     }} >
                         <Image source={require('../assets/images/add_circle.png')} />
                     </TouchableOpacity>
-                    <Image source={{ uri: `${BASE_URL}/getPhoto/${photoList[5]}` }} style={{ width: 100, height: 100, position: "absolute", top: "49%", left: "67%" }} />
+                    <Image source={{ uri: `${BASE_URL}/getPhoto/5.png` }} style={{ width: 100, height: 100, position: "absolute", top: "49%", left: "67%" }} />
                     <TouchableOpacity style={{ width: 24, position: "absolute", top: "63%", left: "77%" }} onPress={() => {
                         setPhotoNumber(5)
                         selectFile();
