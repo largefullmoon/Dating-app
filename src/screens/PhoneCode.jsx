@@ -1,10 +1,12 @@
-import React, {useEffect, useState}from 'react';
-import { ImageBackground, View, Image, Text, TextInput, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { ImageBackground, View, Image, Text, TextInput, TouchableOpacity, ToastAndroid } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 const APP_NAME = "tyche"
-import { verifyPhoneNumber, getUser, resetStatusVariable} from "../features/auth/authSlice";
+import axios from "axios";
+import { getUser } from "../features/auth/authSlice";
+const BASE_URL = "https://pumped-stirred-emu.ngrok-free.app";
 function PhoneCode({ navigation }) {
-    const { user, isSuccess, isError} = useSelector((state) => state.auth);
+    const { user, isSuccess, isError } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
     const [value1, setValue1] = useState("");
     const [value2, setValue2] = useState("");
@@ -12,21 +14,27 @@ function PhoneCode({ navigation }) {
     const [value4, setValue4] = useState("");
     const [value5, setValue5] = useState("");
     useEffect(() => {
-        dispatch(resetStatusVariable())
         dispatch(getUser())
     }, [])
-    useEffect(() => {
-        if(isSuccess == true){
+    const verifyPhoneNumber = async (userData) => {
+        console.log(userData)
+        try {
+            const response = await axios.post(`${BASE_URL}/verifyPhoneNumber`, userData, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            ToastAndroid.show('Verified successfully!', ToastAndroid.SHORT);
             navigation.replace("LoadingTycheChat");
+        } catch (error) {
+            console.log(error)
+            ToastAndroid.show('Verification failed!', ToastAndroid.SHORT);
         }
-        if(isError == true){
-            alert("Please try again.")
-        }
-    }, [isSuccess, isError])
+    };
     if (!user || !user.verified) {
         return (
             <View style={{ marginBottom: 20, alignItems: 'center', flex: 1, justifyContent: 'center' }}>
-                <Text style={{ fontFamily: "AverageSans", fontSize: 40, marginBottom: 40, color:"#0F4037"}}>Doğrulama Kodu</Text>
+                <Text style={{ fontFamily: "AverageSans", fontSize: 40, marginBottom: 40, color: "#0F4037" }}>Doğrulama Kodu</Text>
                 <View style={{ alignItems: "center", flexDirection: "row" }}>
                     <TextInput style={{
                         margin: 10,
@@ -100,11 +108,14 @@ function PhoneCode({ navigation }) {
                     marginTop: 40,
                     justifyContent: "center"
                 }}
-                    onPress={async() => {
-                        console.log(user)
-                        await dispatch(verifyPhoneNumber({"email": user.email, "code": ''+value1+value2+value3+value4+value5}))
+                    onPress={async () => {
+                        if (value1 != "" && value2 != "" && value3 != "" && value4 != "" && value5 != "") {
+                            await verifyPhoneNumber({ "email": user.email, "code": '' + value1 + value2 + value3 + value4 + value5 })
+                        } else {
+                            ToastAndroid.show('Please enter the code!', ToastAndroid.SHORT);
+                        }
                     }}>
-                    <Text style={{ fontFamily: "AverageSans", fontSize: 25, color:"white"}}>Tekrar Gönder</Text>
+                    <Text style={{ fontFamily: "AverageSans", fontSize: 25, color: "white" }}>Tekrar Gönder</Text>
                 </TouchableOpacity>
             </View>
         );
