@@ -2,7 +2,6 @@ import axios from "axios";
 const BASE_URL = "https://pumped-stirred-emu.ngrok-free.app";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 // import io from 'socket.io-client';
-// //Register user
 // const socket = io(BASE_URL);
 const register = async (userData) => {
   const response = await axios.post(`${BASE_URL}/registerUser`, userData, {
