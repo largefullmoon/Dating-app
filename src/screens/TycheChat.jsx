@@ -1,9 +1,9 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { ScrollView, ImageBackground, View, Image, Text, TextInput, TouchableOpacity } from 'react-native';
+import { ScrollView, ImageBackground, View, Image, Text, TextInput, TouchableOpacity, ToastAndroid } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import RadioGroup from 'react-native-radio-buttons-group';
+import axios from "axios";
+const BASE_URL = "https://pumped-stirred-emu.ngrok-free.app"
 const APP_NAME = "tyche"
-import { chatwithAI, getAIChatHistory } from "../features/auth/authSlice";
 function TycheChat({ navigation }) {
     const defaultQuestions = [
         "What is your favorite color?",
@@ -17,10 +17,18 @@ function TycheChat({ navigation }) {
     const [inputValue, setValue] = useState("");
     const [questionNumber, setQuestionNumber] = useState(0);
     const [chatList, setChatList] = useState([]);
+    const answerQuestion = async (data) => {
+        try {
+            const response = await axios.post(`${BASE_URL}/answerQuestion`, data);
+            return true
+        } catch (e) {
+            console.log(e)
+            ToastAndroid.show('Please try again!', ToastAndroid.SHORT);
+            return false;
+        }
+    }
     useEffect(() => {
         setChatList([...chatList, { 'message': defaultQuestions[questionNumber], 'isUser': false }])
-        // let history = dispatch(getAIChatHistory())
-        // setChatList(history)
     }, [])
     if (!user || !user.verified) {
         return (
@@ -68,21 +76,23 @@ function TycheChat({ navigation }) {
                     <TouchableOpacity style={{
                         width: 20, height: 20, marginRight: 10, backgroundColor: "white"
                     }} onPress={async () => {
-                        console.log("user", user)
-                        console.log("inputValue", inputValue)
-                        let list = chatList
-                        setChatList([...chatList, {'message': inputValue, 'isUser': true }])
-                        list.push({'message': inputValue, 'isUser': true })
-                        let number = questionNumber + 1;
-                        setQuestionNumber(number)
-                        const postData = {'message':inputValue, "email": user.email, "question": defaultQuestions[questionNumber]}
-                        await dispatch(chatwithAI(postData))
-                        if (list.length >= 10) {
-                            navigation.replace("RegisterCompleted")
+                        const postData = { 'message': inputValue, "email": user.email, "question": defaultQuestions[questionNumber] }
+                        const result = await answerQuestion(postData);
+                        if(result){
+                            let list = chatList
+                            if (result) {
+                                setChatList([...chatList, { 'message': inputValue, 'isUser': true }])
+                                list.push({ 'message': inputValue, 'isUser': true })
+                                let number = questionNumber + 1;
+                                setQuestionNumber(number)
+                            }
+                            if (list.length >= 10) {
+                                navigation.replace("RegisterCompleted")
+                            }
+                            setTimeout(() => {
+                                setChatList([...list, { 'message': defaultQuestions[questionNumber], 'isUser': false }])
+                            }, 1000)
                         }
-                        setTimeout(() => {
-                            setChatList([...list, {'message': defaultQuestions[questionNumber], 'isUser': false }])
-                        }, 1000)
                     }}>
                         <Image style={{ width: 20, height: 20 }} source={require('../assets/images/Icon.png')} />
                     </TouchableOpacity>

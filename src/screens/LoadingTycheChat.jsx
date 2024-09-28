@@ -31,7 +31,7 @@ function LoadingTycheChat({ navigation }) {
                     }} onPress={() => {
                         navigation.replace("TycheChat");
                     }}>
-                        <Text style={{ fontFamily: "AverageSans", fontSize: 25, color: "white"}}>BAŞLA</Text>
+                        <Text style={{ fontFamily: "AverageSans", fontSize: 25, color: "white" }}>BAŞLA</Text>
                     </TouchableOpacity>
                 </View>
             </View>
