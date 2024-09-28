@@ -9,7 +9,7 @@ function RegisterCompleted({ navigation }) {
     useEffect(() => {
         setTimeout(() => {
             navigation.replace("TermsOfUse")
-        }, 10000);
+        }, 5000);
     }, [])
     if (!user || !user.verified) {
         return (
@@ -22,8 +22,8 @@ function RegisterCompleted({ navigation }) {
                         {APP_NAME}
                     </Text>
                 </View>
-                <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
-                    <Image style={{ width: 200, height: 200}} source={require('../assets/images/back.png')} />
+                <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+                    <Image style={{ width: 200, height: 200 }} source={require('../assets/images/back.png')} />
                     <View>
                         <Text style={{ marginTop: 10, color: "#0F4037", width: 300, fontSize: 15, fontFamily: "AverageSans" }}>Evet artık hazırsın. Her şey tamam. Sadece{"\n"}arkana yaslan . Senin yerine her şeyi halletmiş{"\n"}olacağız.Tek yapman gereken sana en uyacak{"\n"}kişileri seçtiğimizde aralarından seçmen olacak.</Text>
                     </View>
