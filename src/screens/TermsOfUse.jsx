@@ -30,7 +30,7 @@ function TermsOfUse({ navigation }) {
     const agreeTerms = async (userData) => {
         const response = await axios.post(`${BASE_URL}/agreeTerms`, userData, {
             headers: {
-                'Content-Type': 'multipart/form-data',
+                'Content-Type': 'application/json',
             },
         });
         return response.data;
@@ -76,16 +76,16 @@ function TermsOfUse({ navigation }) {
                     marginVertical: 5,
                     alignItems: 'center', backgroundColor: '#0F4037',
                     marginTop: 80,
+                }} onPress={async () => {
+                    const reuslt = await agreeTerms(user)
+                    if (reuslt) {
+                        ToastAndroid.show('Agreed Our Terms!', ToastAndroid.SHORT);
+                        navigation.replace("PhotoVideo");
+                    } else {
+                        ToastAndroid.show('Failed! Please try again', ToastAndroid.SHORT);
+                    }
                 }}>
-                    <Text style={{ fontFamily: "AverageSans", fontSize: 25, color: "white" }} onPress={async () => {
-                        const reuslt = await agreeTerms(user)
-                        if (reuslt) {
-                            ToastAndroid.show('Agreed Our Terms!', ToastAndroid.SHORT);
-                            navigation.replace("PhotoVideo");
-                        } else {
-                            ToastAndroid.show('Failed! Please try again', ToastAndroid.SHORT);
-                        }
-                    }}>ONAYLA</Text>
+                    <Text style={{ fontFamily: "AverageSans", fontSize: 25, color: "white" }}>ONAYLA</Text>
                 </TouchableOpacity>
                 <View style={{ alignItems: 'center', flexDirection: 'row', height: 70, marginTop: 10, justifyContent: "space-around", width: 350 }}>
                     <TouchableOpacity onPress={() => { navigation.replace("User"); }} >
