@@ -1,9 +1,10 @@
 import React, { useState, useMemo } from 'react';
-import { ImageBackground, View, Image, Text, TextInput, TouchableOpacity } from 'react-native';
+import { ImageBackground, View, Image, Text, TextInput, TouchableOpacity, ToastAndroid } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import { agreeTerms } from "../features/auth/authSlice";
+import axios from "axios";
+const BASE_URL = "https://pumped-stirred-emu.ngrok-free.app"
 const APP_NAME = "tyche"
-const Dot = ({onPress, isCurrent}) => (
+const Dot = ({ onPress, isCurrent }) => (
     isCurrent == true ? (
         <TouchableOpacity style={{
             height: 12,
@@ -12,7 +13,7 @@ const Dot = ({onPress, isCurrent}) => (
             backgroundColor: 'black',
             marginHorizontal: 4,
         }} onPress={onPress} />
-    ): (
+    ) : (
         <TouchableOpacity style={{
             height: 12,
             width: 12,
@@ -26,6 +27,14 @@ function TermsOfUse({ navigation }) {
     const { user, userInformation } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
     const [currentSlide, setCurrentSlide] = useState(1);
+    const agreeTerms = async (userData) => {
+        const response = await axios.post(`${BASE_URL}/agreeTerms`, userData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+        return response.data;
+    };
     if (!user || !user.verified) {
         return (
             <View
@@ -52,12 +61,12 @@ function TermsOfUse({ navigation }) {
                     flexDirection: 'row',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    marginTop: 20,  
+                    marginTop: 20,
                 }}>
-                    <Dot onPress={() => setCurrentSlide(1)} isCurrent={currentSlide==1} />
-                    <Dot onPress={() => setCurrentSlide(2)} isCurrent={currentSlide==2} />
-                    <Dot onPress={() => setCurrentSlide(3)} isCurrent={currentSlide==3} />
-                    <Dot onPress={() => setCurrentSlide(4)} isCurrent={currentSlide==4} />
+                    <Dot onPress={() => setCurrentSlide(1)} isCurrent={currentSlide == 1} />
+                    <Dot onPress={() => setCurrentSlide(2)} isCurrent={currentSlide == 2} />
+                    <Dot onPress={() => setCurrentSlide(3)} isCurrent={currentSlide == 3} />
+                    <Dot onPress={() => setCurrentSlide(4)} isCurrent={currentSlide == 4} />
                 </View>
                 <TouchableOpacity style={{
                     borderRadius: 25,
@@ -68,12 +77,13 @@ function TermsOfUse({ navigation }) {
                     alignItems: 'center', backgroundColor: '#0F4037',
                     marginTop: 80,
                 }}>
-                    <Text style={{ fontFamily: "AverageSans", fontSize: 25, color: "white"}} onPress={async () => {
-                        await dispatch(agreeTerms(user))
-                        if(isSuccess == true){
+                    <Text style={{ fontFamily: "AverageSans", fontSize: 25, color: "white" }} onPress={async () => {
+                        const reuslt = await agreeTerms(user)
+                        if (reuslt) {
+                            ToastAndroid.show('Agreed Our Terms!', ToastAndroid.SHORT);
                             navigation.replace("PhotoVideo");
-                        }else{
-                            alert("Pleaes try again")
+                        } else {
+                            ToastAndroid.show('Failed! Please try again', ToastAndroid.SHORT);
                         }
                     }}>ONAYLA</Text>
                 </TouchableOpacity>
