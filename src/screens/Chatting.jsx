@@ -1,13 +1,13 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { ImageBackground, View, Image, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import CircleXFill from '../assets/images/circle-x-fill-24.svg';
-import CircleCheckFill from '../assets/images/circle-check-fill-24.svg';
-import {getChatUsers, setChatUser} from "../features/auth/authSlice";
+import { getChatUsers, setChatUser } from "../features/auth/authSlice";
 const APP_NAME = "tyche"
+import axios from "axios";
+const BASE_URL = "https://pumped-stirred-emu.ngrok-free.app";
 
 function Chatting({ navigation }) {
-    const {user, updateUserInformation, chatUsers} = useSelector((state) => state.auth);
+    const { user, updateUserInformation, chatUsers } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
     const ChatUser = ({ item, navigation }) => (
         <TouchableOpacity onPress={() => {
