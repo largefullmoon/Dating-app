@@ -1,21 +1,49 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { ImageBackground, View, Image, Text, TextInput, TouchableOpacity } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import CircleXFill from '../assets/images/circle-x-fill-24.svg';
-import CircleCheckFill from '../assets/images/circle-check-fill-24.svg';
 const APP_NAME = "tyche"
 const BASE_URL = "https://pumped-stirred-emu.ngrok-free.app"
+import axios from "axios";
 import DocumentPicker from 'react-native-document-picker';
-import { uploadPhoto, getPhotoList } from "../features/auth/authSlice";
 function PhotoVideo({ navigation }) {
-    const { user, photoList } = useSelector((state) => state.auth);
+    const { user } = useSelector((state) => state.auth);
+    const [photoList, setPhotoList] = useState([])
     useEffect(() => {
         async function fetchData() {
-            await dispatch(getPhotoList({"email": user.email}))
+            const result = await getPhotoList({ "email": user.email })
+            setPhotoList(result)
         }
         fetchData()
     }, [])
-    const dispatch = useDispatch();
+    const uploadPhoto = async (params) => {
+        const formData = new FormData();
+        const file = params['file']
+        formData.append('file', {
+            uri: file.uri, // The local path of the file
+            name: file.name || 'photo.jpg', // Optional file name
+            type: file.type || 'image/jpeg', // Optional MIME type
+        });
+        formData.append("email", params['email'])
+        try {
+            const response = await axios.post(`${BASE_URL}/uploadPhoto`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            return response.data;
+        } catch (error) {
+            console.error('Error uploading file:', error);
+            throw new Error(error);
+        }
+    };
+    const getPhotoList = async (userData) => {
+        const response = await axios.post(`${BASE_URL}/getPhotoList`, userData, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        return response.data.photos;
+    };
     const selectFile = async () => {
         try {
             const res = await DocumentPicker.pick({
@@ -32,7 +60,7 @@ function PhotoVideo({ navigation }) {
         }
     };
     const uploadFile = async (file) => {
-        dispatch(uploadPhoto({"email": user.email, "file": file}))
+        uploadPhoto({ "email": user.email, "file": file })
     };
     if (!user || !user.verified) {
         return (
@@ -48,27 +76,27 @@ function PhotoVideo({ navigation }) {
                 <Text style={{ textAlign: "left", width: 350, alignItems: "flex-start", marginTop: 10, color: "#0F4037", fontSize: 15, fontFamily: "AverageSans" }}>Fotoğraf ve videolar</Text>
                 <View style={{ alignItems: "center", justifyContent: "flex-start" }}>
                     <Image style={{ width: 350 }} source={require('../assets/images/videoset.png')} />
-                    <Image source={{ uri: `${BASE_URL}/getPhoto/1.jpg` }} style={{ width: 100, height: 100, position: "absolute", top: "7.5%", left: "3%" }} />
+                    <Image source={{ uri: `${BASE_URL}/getPhoto/${photoList[0]}` }} style={{ width: 100, height: 100, position: "absolute", top: "7.5%", left: "3%" }} />
                     <TouchableOpacity style={{ width: 24, position: "absolute", top: "20%", left: "13%" }} onPress={() => { selectFile() }} >
                         <Image source={require('../assets/images/add_circle.png')} />
                     </TouchableOpacity>
-                    <Image source={{ uri: `${BASE_URL}/getPhoto/2.jpg` }} style={{ width: 100, height: 100, position: "absolute", top: "7.5%", left: "35%" }} />
+                    <Image source={{ uri: `${BASE_URL}/getPhoto/${photoList[1]}` }} style={{ width: 100, height: 100, position: "absolute", top: "7.5%", left: "35%" }} />
                     <TouchableOpacity style={{ width: 24, position: "absolute", top: "20%", left: "45%" }} onPress={() => { selectFile() }} >
                         <Image source={require('../assets/images/add_circle.png')} />
                     </TouchableOpacity>
-                    <Image source={{ uri: `${BASE_URL}/getPhoto/4.png` }} style={{ width: 100, height: 100, position: "absolute", top: "7.5%", left: "67%" }} />
+                    <Image source={{ uri: `${BASE_URL}/getPhoto/${photoList[2]}` }} style={{ width: 100, height: 100, position: "absolute", top: "7.5%", left: "67%" }} />
                     <TouchableOpacity style={{ width: 24, position: "absolute", top: "20%", left: "77%" }} onPress={() => { selectFile() }} >
                         <Image source={require('../assets/images/add_circle.png')} />
                     </TouchableOpacity>
-                    <Image source={{ uri: `${BASE_URL}/getPhoto/1.jpg` }} style={{ width: 100, height: 100, position: "absolute", top: "49%", left: "3%" }} />
+                    <Image source={{ uri: `${BASE_URL}/getPhoto/${photoList[3]}` }} style={{ width: 100, height: 100, position: "absolute", top: "49%", left: "3%" }} />
                     <TouchableOpacity style={{ width: 24, position: "absolute", top: "63%", left: "13%" }} onPress={() => { selectFile() }} >
                         <Image source={require('../assets/images/add_circle.png')} />
                     </TouchableOpacity>
-                    <Image source={{ uri: `${BASE_URL}/getPhoto/3.png` }} style={{ width: 100, height: 100, position: "absolute", top: "49%", left: "35%" }} />
+                    <Image source={{ uri: `${BASE_URL}/getPhoto/${photoList[4]}` }} style={{ width: 100, height: 100, position: "absolute", top: "49%", left: "35%" }} />
                     <TouchableOpacity style={{ width: 24, position: "absolute", top: "63%", left: "45%" }} onPress={() => { selectFile() }} >
                         <Image source={require('../assets/images/add_circle.png')} />
                     </TouchableOpacity>
-                    <Image source={{ uri: `${BASE_URL}/getPhoto/2.jpg` }} style={{ width: 100, height: 100, position: "absolute", top: "49%", left: "67%" }} />
+                    <Image source={{ uri: `${BASE_URL}/getPhoto/${photoList[5]}` }} style={{ width: 100, height: 100, position: "absolute", top: "49%", left: "67%" }} />
                     <TouchableOpacity style={{ width: 24, position: "absolute", top: "63%", left: "77%" }} onPress={() => { selectFile() }} >
                         <Image source={require('../assets/images/add_circle.png')} />
                     </TouchableOpacity>
@@ -91,7 +119,7 @@ function PhotoVideo({ navigation }) {
                         backgroundColor: '#0F4037',
                     }}>
                         <Text style={{ fontFamily: "AverageSans", fontSize: 25 }} onPress={() => {
-                            navigation.replace("PlanList");
+                            // navigation.replace("PlanList");
                         }}>Fotoğraf Doğrulama</Text>
                     </TouchableOpacity>
                 </View>
