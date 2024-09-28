@@ -1,6 +1,8 @@
 import React, { useState, useMemo } from 'react';
-import { ImageBackground, View, Image, Text, TextInput, TouchableOpacity } from 'react-native';
+import { ImageBackground, View, Image, Text, TextInput, TouchableOpacity, ToastAndroid } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
+import axios from "axios";
+const BASE_URL = "https://pumped-stirred-emu.ngrok-free.app";
 const APP_NAME = "tyche"
 const Dot = ({ onPress, active }) => (
     <TouchableOpacity style={{
@@ -9,12 +11,21 @@ const Dot = ({ onPress, active }) => (
         borderRadius: 6,
         backgroundColor: active == true ? 'black' : '#bbb',
         marginHorizontal: 4,
-    }} onPress={onPress} />
+    }}
+        onPress={onPress}
+    />
 );
 function PlanStandard({ navigation }) {
     const { user } = useSelector((state) => state.auth);
-    const dispatch = useDispatch();
     const [currentSlide, setCurrentSlide] = useState(1);
+    const selectPlan = async (params) => {
+        const response = await axios.post(`${BASE_URL}/selectPlan`, params);
+        if (response) {
+            ToastAndroid.show('Plan selected!', ToastAndroid.SHORT);
+        } else {
+            ToastAndroid.show('Something went wrong. Please try again!', ToastAndroid.SHORT);
+        }
+    };
     if (!user || !user.verified) {
         return (
             <View
@@ -62,8 +73,8 @@ function PlanStandard({ navigation }) {
                     marginTop: 80,
                     marginBottom: 50
                 }}>
-                    <Text style={{ fontFamily: "AverageSans", fontSize: 25, color: "white" }} onPress={() => {
-                        dispatch(selectPlan({ "plan": "standard" , "email":user.email}));
+                    <Text style={{ fontFamily: "AverageSans", fontSize: 25, color: "white" }} onPress={async () => {
+                        await selectPlan({ "plan": "standard", "email": user.email })
                     }}>DEVAM ET</Text>
                 </TouchableOpacity>
             </View>
