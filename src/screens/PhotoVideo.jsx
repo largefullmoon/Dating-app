@@ -8,11 +8,13 @@ import DocumentPicker from 'react-native-document-picker';
 function PhotoVideo({ navigation }) {
     const { user } = useSelector((state) => state.auth);
     const [photoList, setPhotoList] = useState([])
+    const [photoNumber, setPhotoNumber] = useState(0)
+    async function fetchData() {
+        const result = await getPhotoList({ "email": user.email })
+        console.log(result)
+        setPhotoList(result)
+    }
     useEffect(() => {
-        async function fetchData() {
-            const result = await getPhotoList({ "email": user.email })
-            setPhotoList(result)
-        }
         fetchData()
     }, [])
     const uploadPhoto = async (params) => {
@@ -24,13 +26,14 @@ function PhotoVideo({ navigation }) {
             type: file.type || 'image/jpeg', // Optional MIME type
         });
         formData.append("email", params['email'])
+        formData.append("number", photoNumber)
         try {
             const response = await axios.post(`${BASE_URL}/uploadPhoto`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            return response.data;
+            fetchData()
         } catch (error) {
             console.error('Error uploading file:', error);
             throw new Error(error);
@@ -77,27 +80,45 @@ function PhotoVideo({ navigation }) {
                 <View style={{ alignItems: "center", justifyContent: "flex-start" }}>
                     <Image style={{ width: 350 }} source={require('../assets/images/videoset.png')} />
                     <Image source={{ uri: `${BASE_URL}/getPhoto/${photoList[0]}` }} style={{ width: 100, height: 100, position: "absolute", top: "7.5%", left: "3%" }} />
-                    <TouchableOpacity style={{ width: 24, position: "absolute", top: "20%", left: "13%" }} onPress={() => { selectFile() }} >
+                    <TouchableOpacity style={{ width: 24, position: "absolute", top: "20%", left: "13%" }} onPress={() => {
+                        setPhotoNumber(0)
+                        selectFile();
+                    }} >
                         <Image source={require('../assets/images/add_circle.png')} />
                     </TouchableOpacity>
                     <Image source={{ uri: `${BASE_URL}/getPhoto/${photoList[1]}` }} style={{ width: 100, height: 100, position: "absolute", top: "7.5%", left: "35%" }} />
-                    <TouchableOpacity style={{ width: 24, position: "absolute", top: "20%", left: "45%" }} onPress={() => { selectFile() }} >
+                    <TouchableOpacity style={{ width: 24, position: "absolute", top: "20%", left: "45%" }} onPress={() => {
+                        setPhotoNumber(1)
+                        selectFile();
+                    }} >
                         <Image source={require('../assets/images/add_circle.png')} />
                     </TouchableOpacity>
                     <Image source={{ uri: `${BASE_URL}/getPhoto/${photoList[2]}` }} style={{ width: 100, height: 100, position: "absolute", top: "7.5%", left: "67%" }} />
-                    <TouchableOpacity style={{ width: 24, position: "absolute", top: "20%", left: "77%" }} onPress={() => { selectFile() }} >
+                    <TouchableOpacity style={{ width: 24, position: "absolute", top: "20%", left: "77%" }} onPress={() => {
+                        setPhotoNumber(2)
+                        selectFile();
+                    }} >
                         <Image source={require('../assets/images/add_circle.png')} />
                     </TouchableOpacity>
                     <Image source={{ uri: `${BASE_URL}/getPhoto/${photoList[3]}` }} style={{ width: 100, height: 100, position: "absolute", top: "49%", left: "3%" }} />
-                    <TouchableOpacity style={{ width: 24, position: "absolute", top: "63%", left: "13%" }} onPress={() => { selectFile() }} >
+                    <TouchableOpacity style={{ width: 24, position: "absolute", top: "63%", left: "13%" }} onPress={() => {
+                        setPhotoNumber(3)
+                        selectFile();
+                    }} >
                         <Image source={require('../assets/images/add_circle.png')} />
                     </TouchableOpacity>
                     <Image source={{ uri: `${BASE_URL}/getPhoto/${photoList[4]}` }} style={{ width: 100, height: 100, position: "absolute", top: "49%", left: "35%" }} />
-                    <TouchableOpacity style={{ width: 24, position: "absolute", top: "63%", left: "45%" }} onPress={() => { selectFile() }} >
+                    <TouchableOpacity style={{ width: 24, position: "absolute", top: "63%", left: "45%" }} onPress={() => {
+                        setPhotoNumber(4)
+                        selectFile();
+                    }} >
                         <Image source={require('../assets/images/add_circle.png')} />
                     </TouchableOpacity>
                     <Image source={{ uri: `${BASE_URL}/getPhoto/${photoList[5]}` }} style={{ width: 100, height: 100, position: "absolute", top: "49%", left: "67%" }} />
-                    <TouchableOpacity style={{ width: 24, position: "absolute", top: "63%", left: "77%" }} onPress={() => { selectFile() }} >
+                    <TouchableOpacity style={{ width: 24, position: "absolute", top: "63%", left: "77%" }} onPress={() => {
+                        setPhotoNumber(5)
+                        selectFile();
+                    }} >
                         <Image source={require('../assets/images/add_circle.png')} />
                     </TouchableOpacity>
                     <Text style={{ marginTop: 10, color: "#0F4037", width: 326, fontSize: 15, fontFamily: "AverageSans" }}>Fotoğrafları sıralamak istersen tutup sürükleyebilirsin.</Text>
