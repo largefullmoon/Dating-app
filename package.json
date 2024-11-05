@@ -30,6 +30,7 @@
     "react-native-check-box": "^2.1.7",
     "react-native-document-picker": "^9.3.0",
     "react-native-dotenv": "^3.4.11",
+    "react-native-drag-sort": "^2.4.4",
     "react-native-image-picker": "^7.1.2",
     "react-native-paper": "^5.12.5",
     "react-native-phone-number-input": "^2.1.0",
